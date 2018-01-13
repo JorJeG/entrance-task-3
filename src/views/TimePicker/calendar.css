@@ -1,0 +1,69 @@
+.calendar {
+  display: flex;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+  height: 380px;
+  padding: 16px;
+  margin-top: 1px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+  border-radius: 0 0 8px 8px;
+}
+
+.month {
+  width: 224px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  margin: 16px auto;
+}
+.month:not(:nth-of-type(2)) {
+  display: none;
+}
+
+.day,
+.emptyDays,
+.currentDay,
+.selected {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 2px;
+}
+.day:not(.emptyDays):hover,
+.currentDay:hover,
+.selected {
+  color: #FFFFFF;
+  background: #1D54FE;
+}
+.currentDay {
+  box-shadow: 0 0 0 1px blue;
+}
+
+@media (min-width: 1280px) {
+  .calendar {
+    border-radius: 4px;
+    margin-left: 24px;
+    font-size: 13px;
+    width: 604px;
+    height: 232px;
+  }
+  .month {
+    width: 168px;
+  }
+  .month:not(:nth-of-type(2)) {
+    display: flex;
+  }
+  .day,
+  .emptyDays,
+  .currentDay,
+  .selected {
+    width: 24px;
+    height: 24px;
+  }
+}

@@ -1,0 +1,46 @@
+.PickerLabel {
+  font-size: 15px;
+  font-weight: 600;
+  width: 100vw;
+  height: 56px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 0 0 #E9ECEF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+}
+.TimePicker {
+  padding-top: 48px;
+}
+.button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #E9ECEF;
+  border-radius: 16px;
+}
+.next {
+  transform: rotate(180deg) translateX(-2px);
+}
+.previus {
+  transform: translateX(-2px);
+}
+@media (min-width: 1280px) {
+  .App-header {
+    height: 71px;
+  }
+  .PickerLabel {
+    width: 245px;
+    height: 46px;
+  }
+  .TimePicker {
+    padding-top: 71px;
+  }
+  .button {
+    width: 24px;
+    height: 24px;
+  }
+}
