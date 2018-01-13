@@ -26,14 +26,19 @@
 .emptyDays,
 .currentDay,
 .selected {
+	box-sizing: border-box;
   width: 32px;
   height: 32px;
+	padding: 0;
   margin-bottom: 10px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+	border: none;
+	background: transparent;
   border-radius: 2px;
+	outline: none;
 }
 .day:not(.emptyDays):hover,
 .currentDay:hover,

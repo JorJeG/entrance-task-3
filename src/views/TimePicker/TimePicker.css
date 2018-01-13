@@ -1,7 +1,6 @@
 .PickerLabel {
   font-size: 15px;
   font-weight: 600;
-  width: 100vw;
   height: 56px;
   background: #FFFFFF;
   box-shadow: 0 1px 0 0 #E9ECEF;
@@ -13,7 +12,7 @@
 .TimePicker {
   padding-top: 48px;
 }
-.button {
+.PickerButton {
   width: 32px;
   height: 32px;
   display: flex;
@@ -28,10 +27,11 @@
 .previus {
   transform: translateX(-2px);
 }
+.data {
+	font-size: 15px;
+	font-weight: 600;
+}
 @media (min-width: 1280px) {
-  .App-header {
-    height: 71px;
-  }
   .PickerLabel {
     width: 245px;
     height: 46px;
@@ -39,7 +39,7 @@
   .TimePicker {
     padding-top: 71px;
   }
-  .button {
+  .PickerButton {
     width: 24px;
     height: 24px;
   }
