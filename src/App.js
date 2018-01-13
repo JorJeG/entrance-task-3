@@ -3,6 +3,7 @@ import Moment from 'moment';
 import {TimePicker, Timeline} from './views';
 import logo from './assets/touch/logo.svg';
 import './App.css';
+import {rooms} from './data/rooms';
 
 
 Moment.locale('ru', {
@@ -31,17 +32,33 @@ Moment.locale('ru', {
 	],
 });
 
+
+
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			calendar: false,
 			selectedDay: Moment(),
+			hidden: false
 		};
 		this.selectCalendar = this.selectCalendar.bind(this);
 		this.selectDay = this.selectDay.bind(this);
 		this.nextDay = this.nextDay.bind(this);
 		this.previusDay = this.previusDay.bind(this);
+		this.handleScroll = this.handleScroll.bind(this);
+	}
+	componentDidMount() {
+    this.container.addEventListener('scroll', this.handleScroll);
+  }
+  componentWillUnmount() {
+    this.container.removeEventListener('scroll', this.handleScroll);
+  }
+	shouldComponentUpdate(nextState) {
+		if (this.state.hidden !== nextState.hidden) {
+			return true;
+		}
+		return false;
 	}
 	// Обработчик для вызова календаря
 	selectCalendar() {
@@ -72,23 +89,39 @@ class App extends Component {
 			selectedDay: selectedDay.subtract(1, 'days'),
 		});
 	}
+	handleScroll(e) {
+		e.stopPropagation();
+		if (e.target.scrollLeft > 140) {
+			this.setState(state => ({
+				hidden: true
+			}));
+		} if (e.target.scrollLeft < 140) {
+			this.setState(state => ({
+				hidden: false
+			}));
+		}
+	}
 	render() {
 		return (
 			<div className='App'>
 				<header className='App-header'>
 					<img src={logo} className='App-logo' alt='logo' />
+					<button className='App-createEvent'>Создать встречу</button>
 				</header>
-				<div className='timeContainer'>
-					<TimePicker
-						selectCalendar={this.selectCalendar}
-						previusDay={this.previusDay}
-						nextDay={this.nextDay}
-						selectedTime={this.state.selectedDay}
-						selectedDay={this.state.selectedDay}
-						selectDay={this.selectDay}
-						calendar={this.state.calendar} />
-						<Timeline />
-				</div>
+				<TimePicker
+					selectCalendar={this.selectCalendar}
+					previusDay={this.previusDay}
+					nextDay={this.nextDay}
+					selectedTime={this.state.selectedDay}
+					selectedDay={this.state.selectedDay}
+					selectDay={this.selectDay}
+					calendar={this.state.calendar} />
+				<Timeline
+					rooms={rooms}
+					left={this.state.left}
+					hidd={this.state.hidden}
+					scrollingRef={(el) => this.container = el}
+					scrolling={this.scrolling} />
 			</div>
 		);
 	}

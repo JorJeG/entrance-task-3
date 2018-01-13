@@ -10,7 +10,11 @@
   padding: 0 16px;
 }
 .TimePicker {
-  padding-top: 48px;
+	position: absolute;
+	top: 49px;
+	left: 0;
+	right: 0;
+	z-index: 3;
 }
 .PickerButton {
   width: 32px;
@@ -35,9 +39,12 @@
   .PickerLabel {
     width: 245px;
     height: 46px;
+		box-shadow: none;
   }
   .TimePicker {
-    padding-top: 71px;
+		position: fixed;
+		top: 72px;
+		left: 0;
   }
   .PickerButton {
     width: 24px;

@@ -20,9 +20,15 @@ function thirdMonth() {
 }
 
 export const day = () => {
-	const start = Moment().startOf('day').add(8, 'hours');
-	const end = Moment().endOf('day').add(1, 'hours');
+	const start = Moment().startOf('day').add(7, 'hours');
+	const end = Moment().endOf('day');
 	return Array.from(moment.range(start, end).by('hours'));
+}
+
+export const dayInMinutes = () => {
+	const start = Moment().startOf('day').add(7, 'hours');
+	const end = Moment().endOf('day');
+	return Array.from(moment.range(start, end).by('minutes', {step: 15}));
 }
 
 export const isSame = (day) => moment(moment()).isSame(day.format(), 'day');

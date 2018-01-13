@@ -26,6 +26,8 @@
 .emptyDays,
 .currentDay,
 .selected {
+	font-size: 13px;
+	font-weight: 500;
 	box-sizing: border-box;
   width: 32px;
   height: 32px;

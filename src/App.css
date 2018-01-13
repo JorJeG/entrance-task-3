@@ -1,3 +1,22 @@
+* {
+	box-sizing: border-box;
+}
+body {
+	background: #F7F8F9;
+}
+p {
+	margin: 0;
+	padding: 0;
+	font-size: 13px;
+	line-height: 17px;
+}
+
+h2 {
+	font-size: 15px;
+	font-weight: 600;
+	margin: 0;
+}
+
 button {
 	border: none;
 	background: transparent;
@@ -13,6 +32,8 @@ button {
   text-align: center;
   box-sizing: border-box;
   font-size: 15px;
+	position: relative;
+	background: #F7F8F9;
 }
 
 ::-webkit-scrollbar {
@@ -22,7 +43,7 @@ button {
 .App-logo {
   width: 149px;
   height: 21;
-  margin: 15px 0 11px 0;
+  margin: 15px 0 11px 21px;
 }
 
 .App-header {
@@ -37,12 +58,31 @@ button {
   align-items: center;
   width: 100vw;
   height: 48px;
-  padding: 0 21px;
   color: white;
+	z-index: 3;
+}
+
+.App-createEvent {
+	display: none;
 }
 
 @media (min-width: 1280px) {
   .App-header {
     height: 71px;
   }
+	.App-logo {
+		margin-left: 24px;
+	}
+	.App-createEvent {
+		display: block;
+		width: 140px;
+		height: 36px;
+		font-weight: 400;
+		font-size: 13px;
+		color: #FFFFFF;
+		letter-spacing: 0;
+		background: #007DFF;
+		border-radius: 4px;
+		margin-right: 24px;
+	}
 }
