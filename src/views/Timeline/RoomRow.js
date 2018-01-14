@@ -1,5 +1,4 @@
 import React from 'react';
-import {generateId} from '../../helpers/helpers';
 import {dayInMinutes} from '../../helpers/date';
 const dayInM = dayInMinutes();
 

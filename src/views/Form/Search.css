@@ -1,0 +1,31 @@
+.option-container {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.option-container:hover {
+	background: #F6F7F9;
+	font-weight: bold;
+}
+
+.ant-select-selection--single {
+	width: 328px;
+	height: 44px;
+	border: 2px solid #E9ECEF;
+}
+
+.ant-select-selection--single:hover {
+	border-color: #007DFF;
+}
+
+.ant-select-selection__rendered {
+	height: 100%;
+}
+
+@media (min-width: 1280px) {
+	.ant-select-selection--single {
+		width: 420px;
+		height: 38px;
+	}
+}

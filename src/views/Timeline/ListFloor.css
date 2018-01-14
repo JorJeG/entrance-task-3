@@ -133,6 +133,9 @@
 		width: 276px;
 		height: 44px;
 	}
+	.styledRoomTitle {
+		width: 191px;
+	}
 }
 
 .minutesCell {

@@ -1,0 +1,145 @@
+.user-search-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	background: #fff;
+	padding: 16px 16px 20px 16px;
+	margin-bottom: 8px;
+}
+
+.user-search-input {
+	margin-bottom: 10px;
+}
+
+.user-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.room-container {
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 16px 16px 20px 16px;
+}
+
+.room-header {
+	width: 328px;
+}
+
+.event-room-checkbox {
+	font-family: "HelveticaNeue", "Open Sans", sans-serif;
+	width: 328px;
+	height: 44px;
+	background: #E9ECEF;
+	border-radius: 4px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-right: 12px;
+	margin-bottom: 8px;
+}
+
+.event-room-checkbox input {
+	display: none;
+}
+
+.event-room-checkbox__checked {
+	background: #007DFF;
+	color: #fff;
+}
+.event-room-checkbox__checked input {
+	display: none;
+}
+
+.event-room-checkbox__checked .event-room-data {
+	color: #fff;
+}
+
+.event-room-data {
+	font-size: 15px;
+	font-weight: 600;
+	color: #000;
+	letter-spacing: 0;
+	line-height: 17px;
+	margin: 0 12px;
+	white-space: nowrap;
+}
+
+.event-room-desc {
+	display: inline-flex;
+	width: 173px;
+	font-size: 15px;
+	font-weight: 300;
+	white-space: nowrap;
+	overflow: scroll;
+}
+
+.room-uncheck {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 16px;
+	height: 16px;
+	border: none;
+	background: url(../../assets/touch/close-white.svg) no-repeat center;
+}
+
+@media (min-width: 1280px) {
+	.mid-container {
+		padding: 0;
+		max-width: 872px;
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.user-search-wrapper {
+		padding: 0;
+		width: 420px;
+	}
+
+	.user-search-input {
+		margin-bottom: 12px;
+	}
+
+	.user-list {
+		width: 420px;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.room-container {
+		align-items: flex-start;
+		width: 420px;
+		padding: 0;
+		margin-left: 32px;
+		margin-bottom: 0;
+	}
+
+	.room-header {
+		width: 420px;
+	}
+
+	.event-room-checkbox {
+		width: 420px;
+		height: 38px;
+	}
+
+	.event-room-data {
+		font-size: 13px;
+	}
+
+	.event-room-desc {
+		width: 287px;
+		font-size: 13px;
+	}
+
+	.room-uncheck {
+		background-image: url(../../assets/desktop/close-white.svg);
+	}
+}

@@ -1,0 +1,14 @@
+.form-wrapper {
+	width: 100vw;
+}
+
+@media (min-width: 1280px) {
+	.form-wrapper {
+		height: calc(100vh - 72px);
+		background: #fff;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+	}
+}

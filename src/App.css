@@ -15,6 +15,17 @@ h2 {
 	font-size: 15px;
 	font-weight: 600;
 	margin: 0;
+	padding: 0;
+}
+h3 {
+	margin: 0;
+	padding: 0;
+	padding-bottom: 4px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #000000;
+	letter-spacing: 0;
+	text-align: left;
 }
 
 button {
@@ -66,6 +77,10 @@ button {
 	display: none;
 }
 
+.hiddenMobile {
+	display: none;
+}
+
 @media (min-width: 1280px) {
   .App-header {
     height: 71px;
@@ -84,5 +99,11 @@ button {
 		background: #007DFF;
 		border-radius: 4px;
 		margin-right: 24px;
+	}
+	.hiddenDesktop {
+		display: none;
+	}
+	.hiddenMobile {
+		display: block;
 	}
 }

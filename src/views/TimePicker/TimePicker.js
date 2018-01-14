@@ -3,7 +3,7 @@ import {Calendar, Label} from '../';
 import './TimePicker.css';
 
 const TimePicker = (props) => (
-	<div className='TimePicker'>
+	<div hidden={props.newEvent} className='TimePicker'>
 		<Label
 			selectCalendar={props.selectCalendar}
 			previusDay={props.previusDay}
