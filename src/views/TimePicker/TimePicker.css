@@ -1,13 +1,13 @@
 .PickerLabel {
-  font-size: 15px;
-  font-weight: 600;
-  height: 56px;
-  background: #FFFFFF;
-  box-shadow: 0 1px 0 0 #E9ECEF;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
+	font-size: 15px;
+	font-weight: 600;
+	height: 56px;
+	background: #FFFFFF;
+	box-shadow: 0 1px 0 0 #E9ECEF;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 16px;
 }
 .TimePicker {
 	position: absolute;
@@ -17,37 +17,38 @@
 	z-index: 3;
 }
 .PickerButton {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #E9ECEF;
-  border-radius: 16px;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #E9ECEF;
+	border-radius: 16px;
 }
 .next {
-  transform: rotate(180deg) translateX(-2px);
+	transform: rotate(180deg) translateX(-2px);
 }
 .previus {
-  transform: translateX(-2px);
+	transform: translateX(-2px);
 }
 .data {
 	font-size: 15px;
-	font-weight: 600;
+	font-weight: 500;
 }
 @media (min-width: 1280px) {
-  .PickerLabel {
-    width: 245px;
-    height: 46px;
+	.PickerLabel {
+		width: 245px;
+		height: 46px;
 		box-shadow: none;
-  }
-  .TimePicker {
+	}
+	.TimePicker {
 		position: fixed;
 		top: 72px;
-		left: 0;
-  }
-  .PickerButton {
-    width: 24px;
-    height: 24px;
-  }
+		left: auto;
+		right: auto;
+	}
+	.PickerButton {
+		width: 24px;
+		height: 24px;
+	}
 }

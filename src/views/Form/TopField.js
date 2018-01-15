@@ -1,13 +1,15 @@
 import React from 'react';
-import Moment from 'moment';
 import {DatePicker, TimePicker} from 'antd';
 import './TopField.css';
+import moment from 'moment';
+import {range} from '../../helpers/helpers';
+import {isSame} from '../../helpers/date';
 
 const TopField = (props) => (
 	<div className='top-container'>
 		<div className='container-header'>
 			<h2 className='container-header__title'>{props.title}</h2>
-			<button className='container-close hiddenMobile'/>
+			<button onMouseUp={props.handleCancel} className='container-close hiddenMobile'/>
 		</div>
 		<div className='event-title'>
 			<div>
@@ -32,7 +34,9 @@ const TopField = (props) => (
 				<DatePicker
 					className='antd-DatePicker'
 					format='D MMMM, YYYY'
-					defaultValue={Moment().startOf('day')}
+					showToday={false}
+					disabledDate={(cur) => cur < moment().subtract(1, 'days').endOf('day')}
+					value={props.event.dateStart}
 					onChange={props.handleDate} />
 			</div>
 			<div className='event-data-inner'>
@@ -40,9 +44,10 @@ const TopField = (props) => (
 					<h3 className='hiddenMobile'>Начало</h3>
 					<TimePicker
 						format='HH:mm'
-						minuteStep={60}
-						value={props.hourStart}
-						defaultValue={Moment().startOf('hour')}
+						minuteStep={15}
+						disabledHours={() => (isSame(props.event.dateStart) ?
+							range(7, moment().format('HH')) : range(7, moment().startOf('day').format('HH')))}
+						value={props.event.dateStart}
 						onChange={props.handleHourStart} />
 				</div>
 				<div className='event-data-hour'>
@@ -50,8 +55,8 @@ const TopField = (props) => (
 					<TimePicker
 						format='HH:mm'
 						minuteStep={15}
-						value={props.hourEnd}
-						defaultValue={Moment().add(1, 'hour').startOf('hour')}
+						disabledHours={() => range(7, moment(props.event.dateStart).format('HH'))}
+						value={props.event.dateEnd}
 						onChange={props.handleHourEnd} />
 				</div>
 			</div>

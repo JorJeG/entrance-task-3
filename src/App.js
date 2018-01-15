@@ -1,41 +1,31 @@
 import React, {Component} from 'react';
 import Moment from 'moment';
-import {TimePicker, Timeline, Form} from './views';
+import {
+	Timeline,
+	Form,
+	EventPopover,
+	ConfirmAddPopover,
+	ConfirmDeletePopover
+} from './views';
+import {
+	removeUser,
+	addUser,
+	addRoom,
+	removeRoom,
+	renameEvent,
+	mockEvent,
+	newEventWithTime,
+	changeEventDateStart,
+	changeEventDateEnd,
+	changeEventDay,
+	addNewEvent,
+	updateBox
+} from './helpers/helpers';
 import logo from './assets/touch/logo.svg';
 import './App.css';
 import {rooms} from './data/rooms';
 import {events} from './data/events';
 import {users} from './data/users';
-import {removeUser, addUser, addRoom, removeRoom, renameEvent, mockEvent} from './helpers/helpers';
-
-
-Moment.locale('ru', {
-	monthsShort: [
-		'Янв',
-		'Фев',
-		'Март',
-		'Апр',
-		'Май',
-		'Июнь',
-		'Июль',
-		'Авг',
-		'Сент',
-		'Окт',
-		'Нояб',
-		'Дек',
-	],
-	weekdays: [
-		'Воскресенье',
-		'Понедельник',
-		'Вторник',
-		'Среда',
-		'Четверг',
-		'Пятница',
-		'Суббота',
-	],
-});
-
-
 
 class App extends Component {
 	constructor(props) {
@@ -47,16 +37,18 @@ class App extends Component {
 			member: '',
 			newEvent: false,
 			editEvent: false,
+			events: [],
 			event: {},
 			users: [],
 			rooms: [],
 			checked: false,
 			today: true,
-			date: Moment().startOf('day'),
 			now: Moment().format('HH:mm'),
 			offset: Moment.duration(Moment().format('HH:mm')).asMinutes(),
-			hourStart: Moment(),
-			hourEnd: Moment().add(1, 'hours'),
+			popover: {},
+			onEvent: false,
+			confirmAdd: false,
+			confirmDelete: false
 		};
 		this.selectCalendar = this.selectCalendar.bind(this);
 		this.selectDay = this.selectDay.bind(this);
@@ -74,11 +66,18 @@ class App extends Component {
 		this.handleUnCheck = this.handleUnCheck.bind(this);
 		this.createEvent = this.createEvent.bind(this);
 		this.cancelButton = this.cancelButton.bind(this);
+		this.onAddNewEvent = this.onAddNewEvent.bind(this);
+		this.handlePopover = this.handlePopover.bind(this);
+		this.handleConfrimPopover = this.handleConfrimPopover.bind(this);
+		this.handleDeletePopover = this.handleDeletePopover.bind(this);
+		this.onEditEvent = this.onEditEvent.bind(this);
+		this.onSaveEvent = this.onSaveEvent.bind(this);
 	}
 	componentDidMount() {
 		this.setState({
 			rooms,
-			users
+			users,
+			events
 		})
 		this.container.addEventListener('scroll', this.handleScroll);
 		this.timerID = setInterval(
@@ -115,46 +114,36 @@ class App extends Component {
 		if (!Moment(selectedDay).isSame(Moment(data), 'day')) {
 			this.setState({
 				selectedDay: Moment(data),
-				today: false
+				today: false,
+				calendar: false
 			});
 		}
 		if (Moment(Moment()).isSame(Moment(data), 'day')) {
 			this.setState({
-				today: true
+				today: true,
+				calendar: false
 			});
 		}
 	}
 	// Обработчик кнопки день вперед
 	nextDay() {
-		const {selectedDay} = this.state;
-		this.setState({
-			selectedDay: selectedDay.add(1, 'days'),
+		this.setState(prevState => {
+			const today = Moment().isSame(prevState.selectedDay.clone().add(1, 'days'), 'day') ? true : false
+			return {
+				selectedDay: prevState.selectedDay.clone().add(1, 'days'),
+				today
+			}
 		});
-		if (Moment(Moment()).isSame(Moment(selectedDay), 'day')) {
-			this.setState({
-				today: true
-			});
-		} else {
-			this.setState({
-				today: false
-			});
-		}
 	}
 	// Обработчик кнопки день назад
 	previusDay() {
-		const {selectedDay} = this.state;
-		this.setState({
-			selectedDay: selectedDay.subtract(1, 'days'),
+		this.setState(prevState => {
+			const today = Moment().isSame(prevState.selectedDay.clone().subtract(1, 'days'), 'day') ? true : false
+			return {
+				selectedDay: prevState.selectedDay.clone().subtract(1, 'days'),
+				today
+			}
 		});
-		if (Moment(Moment()).isSame(Moment(selectedDay), 'day')) {
-			this.setState({
-				today: true
-			})
-		} else {
-			this.setState({
-				today: false
-			});
-		}
 	}
 	// Обработчик скролла
 	handleScroll(e) {
@@ -187,24 +176,30 @@ class App extends Component {
 	}
 	// Обработчик на изменение времени начала встречи
 	handleHourStart(time, timeString) {
+		const {event} = this.state;
+		const changedEventDateStart = changeEventDateStart(event, Moment(time));
 		this.setState({
-			hourStart: Moment(time).startOf('hour')
+			event: changedEventDateStart
 		});
 	}
 	// Обработчик на изменение времени окончания встречи
 	handleHourEnd(time, timeString) {
-		const a = this.state.hourStart;
+		const {event} = this.state;
+		const a = event.dateStart;
 		if (a.diff(Moment(time)) > 0) {
 			return;
 		}
+		const changedEventDateEnd = changeEventDateEnd(event, Moment(time));
 		this.setState({
-			hourEnd: Moment(time).startOf('hour')
+			event: changedEventDateEnd
 		});
 	}
 	// Обработчик на изменение даты
 	handleDate(time, timeString) {
+		const {event} = this.state;
+		const changedEventDay = changeEventDay(event, Moment(time).startOf('day'));
 		this.setState({
-			date: Moment(time).startOf('day')
+			event: changedEventDay
 		});
 	}
 	// Обработчик на поиск пользователя
@@ -249,55 +244,146 @@ class App extends Component {
 		}, () => this.setState({member: ''}));
 	}
 	// Обработчик переключения на создание встречи
-	createEvent() {
-		const emptyEvent = mockEvent(this.state.event);
-		this.setState({
-			newEvent: true,
-			event: emptyEvent
-		});
+	createEvent(e, id) {
+		console.log(id);
+		if (typeof e === 'string') {
+			const currentRoom = this.state.rooms.find((room) => room.id === id);
+			const eventWithTime = newEventWithTime(this.state.event, e, currentRoom);
+
+			this.setState({
+				newEvent: true,
+				event: eventWithTime,
+				onEvent: false,
+				checked: true
+			})
+		} else {
+			const emptyEvent = mockEvent(this.state.event);
+			this.setState({
+				newEvent: true,
+				event: emptyEvent,
+				onEvent: false
+			});
+		}
 	}
 	// Обработчик кнопки Отмена
 	cancelButton() {
 		this.setState({
-			newEvent: false
+			newEvent: false,
+			editEvent: false,
+			checked: false
 		});
 	}
+	// Обработчик для добавления новой встречи
+	onAddNewEvent() {
+		const {events, event} = this.state;
+		const addedEvent = addNewEvent(events, event);
+		this.setState({
+			events: addedEvent,
+			confirm: true,
+			newEvent: false,
+			confirmAdd: true
+		});
+	}
+	// Обработчик поповера для встреч
+	handlePopover(e) {
+		const selectedCell = e.target;
+		const newPlace = updateBox(this.state.popover, selectedCell.getBoundingClientRect());
+		// console.log(e.target.getBoundingClientRect());
+		// console.log(id);
+		const clickedEvent = this.state.events.find((event) => event.id === Number(selectedCell.dataset.id));
+		// console.log(this.popover.getBoundingClientRect());
+		// console.log(window.scrollY);
+		this.setState(prevState => {
+			return {
+				popover: newPlace,
+				onEvent: !prevState.onEvent,
+				event: clickedEvent,
+			}
+		});
+	}
+	// Обработчик включения поздравления о создании встречи
+	handleConfrimPopover() {
+		const {event} = this.state;
+		const emptyedEvent = mockEvent(event);
+		this.setState({
+			event: emptyedEvent,
+			confirmAdd: false
+		});
+	}
+	// Обработчик включения подтверждения удаления
+	handleDeletePopover() {
+		this.setState({
+			confirmDelete: true
+		});
+	}
+	// Обработчик включения редактирования
+	onEditEvent() {
+		this.setState({
+			editEvent: true,
+			onEvent: false,
+			checked: true
+		})
+	}
+	// Обработчик для сохранения изменений во встречи
+	onSaveEvent() {
+
+	}
+	// Обработчик для удаления встречи
+	onDeleteEvent() {
+
+	}
 	render() {
+		const {
+			popover,
+			event,
+			onEvent,
+			newEvent,
+			editEvent,
+			onAddNewEvent,
+			confirmAdd,
+			confirmDelete} = this.state;
+		const scroll = onEvent ? "fixed" : 'static';
 		return (
-			<div className='App'>
+			<div
+				// style={{position: scroll}}
+				className='App'>
 				<header className='App-header'>
 					<img src={logo} className='App-logo' alt='logo' />
-					<button hidden={this.state.newEvent} onMouseUp={this.createEvent} className='App-createEvent'>Создать встречу</button>
+					<button hidden={this.state.newEvent || editEvent} onMouseUp={this.createEvent} className='App-createEvent'>Создать встречу</button>
 				</header>
-				<TimePicker
+				<Timeline
+					onEvent={this.state.onEvent}
+					popover={this.state.popover}
+					handlePopover={this.handlePopover}
 					newEvent={this.state.newEvent}
+					editEvent={this.state.editEvent}
 					selectCalendar={this.selectCalendar}
 					previusDay={this.previusDay}
 					nextDay={this.nextDay}
 					selectedTime={this.state.selectedDay}
-					selectedDay={this.state.selectedDay}
 					selectDay={this.selectDay}
-					calendar={this.state.calendar} />
-				<Timeline
+					calendar={this.state.calendar}
+					selectedDay={this.state.selectedDay}
+					events={this.state.events}
 					today={this.state.today}
 					now={this.state.now}
 					offset={this.state.offset}
-					newEvent={this.state.newEvent}
+					createEvent={this.createEvent}
 					rooms={rooms}
 					left={this.state.left}
 					hidd={this.state.hidden}
 					scrollingRef={(el) => this.container = el}
 					scrolling={this.scrolling} />
-				{this.state.newEvent &&
+				{newEvent &&
 					<Form
+						title='Новая встреча'
+						newEvent={this.state.newEvent}
 						event={this.state.event}
 						rooms={this.state.rooms}
 						users={this.state.users}
 						checked={this.state.checked}
 						member={this.state.member}
 						eventTitle={this.state.event.title}
-						hourStart={this.state.hourStart}
-						hourEnd={this.state.hourEnd}
 						handleTitle={this.handleTitle}
 						handleClearTitle={this.handleClearTitle}
 						handleDate={this.handleDate}
@@ -307,8 +393,46 @@ class App extends Component {
 						handleUnCheck={this.handleUnCheck}
 						handleChange={this.handleChange}
 						handleCancel={this.cancelButton}
+						onAddNewEvent={this.onAddNewEvent}
 						onDeleteUser={this.onDeleteUser}
 						onAddUser={(e) => this.onAddUser(e)} />}
+				{editEvent &&
+					<Form
+						title='Редактирование встречи'
+						editEvent={editEvent}
+						event={this.state.event}
+						rooms={this.state.rooms}
+						users={this.state.users}
+						checked={this.state.checked}
+						member={this.state.member}
+						eventTitle={this.state.event.title}
+						handleTitle={this.handleTitle}
+						handleClearTitle={this.handleClearTitle}
+						handleDate={this.handleDate}
+						handleHourStart={this.handleHourStart}
+						handleHourEnd={this.handleHourEnd}
+						handleCheck={this.handleCheck}
+						handleUnCheck={this.handleUnCheck}
+						handleChange={this.handleChange}
+						handleCancel={this.cancelButton}
+						onSaveEvent={this.onSaveEvent}
+						onDeleteUser={this.onDeleteUser}
+						onAddUser={(e) => this.onAddUser(e)}
+					/>}
+				{onEvent &&
+					<EventPopover
+						onEditEvent={this.onEditEvent}
+						popover={popover}
+						popoverEvent={this.state.event}
+						/>}
+				{confirmAdd &&
+					<ConfirmAddPopover
+						event={event}
+						handleConfrimPopover={this.handleConfrimPopover} />
+				}
+				{confirmDelete &&
+					<ConfirmDeletePopover />
+				}
 			</div>
 		);
 	}

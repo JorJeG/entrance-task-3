@@ -1,7 +1,62 @@
 import Moment from 'moment';
 import {extendMoment} from 'moment-range';
-
+Moment.locale('ru', {
+	monthsShort: [
+		'Янв',
+		'Фев',
+		'Март',
+		'Апр',
+		'Май',
+		'Июнь',
+		'Июль',
+		'Авг',
+		'Сент',
+		'Окт',
+		'Нояб',
+		'Дек',
+	],
+	weekdaysShort: [
+		'Воскр',
+		'Пон',
+		'Вторник',
+		'Среда',
+		'Четверг',
+		'Пятница',
+		'Суббота',
+	],
+	months: [
+		'Январь',
+		'Февраль',
+		'Март',
+		'Апрель',
+		'Май',
+		'Июнь',
+		'Июль',
+		'Август',
+		'Сентябрь',
+		'Октябрь',
+		'Ноябрь',
+		'Декабрь',
+	],
+	weekdaysMin: [
+		'Воск',
+		'Пон',
+		'Вт',
+		'Ср',
+		'Чет',
+		'Пят',
+		'Суб',
+	],
+	calendar: {
+		sameDay: '[Сегодня]'
+	}
+});
 const moment = extendMoment(Moment);
+
+export const nearestFutureMinutes = (interval, someMoment) => {
+	const roundedMinutes = Math.ceil(someMoment.minutes() / interval) * interval;
+	return someMoment.clone().minutes(roundedMinutes).second(0);
+}
 
 function firstMonth() {
 	const start = Moment().subtract(1, 'months').startOf('month');
@@ -25,14 +80,20 @@ export const day = () => {
 	return Array.from(moment.range(start, end).by('hours'));
 }
 
-export const dayInMinutes = () => {
-	const start = Moment().startOf('day').add(7, 'hours');
-	const end = Moment().endOf('day');
+export const dayInMinutes = (selectedDay) => {
+	const start = Moment(selectedDay).startOf('day').add(7, 'hours');
+	const end = Moment(selectedDay).endOf('day');
 	return Array.from(moment.range(start, end).by('minutes', {step: 15}));
 }
 
-export const isSame = (day) => moment(moment()).isSame(day.format(), 'day');
-export const isSelected = (day, selected) => moment(selected).isSame(day.format(), 'day');
+export const eventDuration = (dateStart, dateEnd) => {
+	return Array.from(moment.range(dateStart, dateEnd.clone().subtract(1, 'minutes')).by('minutes')).length;
+}
+
+export const isSame = (day) => Moment(Moment()).isSame(day, 'day');
+export const isSelected = (day, selected) => selected.isSame(day, 'day');
+export const isSelectedTime = (time, selected) => selected.isSame(time, 'minute');
+export const isSelectedHour = (time, selected) => selected.isSame(time, 'hours');
 
 const months = [firstMonth(), secondMonth(), thirdMonth()];
 

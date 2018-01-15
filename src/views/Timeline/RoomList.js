@@ -1,5 +1,5 @@
 import React from 'react';
-import {FloorRow, RoomRow} from '../';
+import {FloorRow, RoomRow, OnlyRoom} from '../';
 
 const RoomList = (props) => {
 	const rows = [];
@@ -11,10 +11,22 @@ const RoomList = (props) => {
 				floor={room.floor}
 				key={room.floor} />);
 		}
-		rows.push(<RoomRow
-			only={props.only}
-			room={room}
-			key={room.title} />);
+		if (props.only) {
+			rows.push(<OnlyRoom
+				only={props.only}
+				room={room}
+				key={room.title} />);
+		} else {
+			const filteredEvents = props.events.filter((event) => event.room.id === room.id);
+			rows.push(<RoomRow
+				onEvent={props.onEvent}
+				handlePopover={props.handlePopover}
+				selectedDay={props.selectedDay}
+				createEvent={props.createEvent}
+				events={filteredEvents}
+				room={room}
+				key={room.title} />);
+		}
 		lastFloor = room.floor;
 	});
 	return (

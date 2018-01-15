@@ -37,7 +37,8 @@ const MiddleField = (props) => {
 		</div>
 	));
 	return (
-		<div className='mid-container'>
+		<div
+			className='mid-container'>
 			<div className='user-search-wrapper'>
 				<div className='user-search-input'>
 					<h3>Участники</h3>

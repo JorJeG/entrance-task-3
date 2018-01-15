@@ -1,25 +1,25 @@
 .calendar {
-  display: flex;
-  -ms-align-items: center;
-  align-items: center;
-  width: 100%;
-  height: 380px;
-  padding: 16px;
-  margin-top: 1px;
-  background: #FFFFFF;
-  box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
-  border-radius: 0 0 8px 8px;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	width: 100%;
+	height: 380px;
+	padding: 16px;
+	margin-top: 1px;
+	background: #FFFFFF;
+	box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+	border-radius: 0 0 8px 8px;
 }
 
 .month {
-  width: 224px;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-end;
-  margin: 16px auto;
+	width: 224px;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-end;
+	margin: 16px auto;
 }
 .month:not(:nth-of-type(2)) {
-  display: none;
+	display: none;
 }
 
 .day,
@@ -29,17 +29,17 @@
 	font-size: 13px;
 	font-weight: 500;
 	box-sizing: border-box;
-  width: 32px;
-  height: 32px;
+	width: 32px;
+	height: 32px;
 	padding: 0;
-  margin-bottom: 10px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	margin-bottom: 10px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border: none;
 	background: transparent;
-  border-radius: 2px;
+	border-radius: 2px;
 	outline: none;
 }
 .day:not(.emptyDays):hover,

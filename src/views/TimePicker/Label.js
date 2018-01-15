@@ -6,14 +6,17 @@ const Label = (props) => (
 		<button className='PickerButton' onClick={props.previusDay}>
 			<img className='previus' src={arrow} alt='previus day' />
 		</button>
-		<button className='data' onClick={props.selectCalendar}>
+		<button
+			className='data'
+			style={props.calendar ? {color: '#0070E0'} : {color: '#000'}}
+			onClick={props.selectCalendar}>
 			{props.selectedTime.calendar(null, {
 				lastDay: 'D MMM · [Вчера]',
 				sameDay: 'D MMM · [Сегодня]',
 				nextDay: 'D MMM · [Завтра]',
-				lastWeek: 'D MMM · dddd',
-				nextWeek: 'D MMM · dddd',
-				sameElse: 'D MMM · dddd',
+				lastWeek: 'D MMM · ddd',
+				nextWeek: 'D MMM · ddd',
+				sameElse: 'D MMM · ddd',
 			})}
 		</button>
 		<button className='PickerButton' onClick={props.nextDay}>

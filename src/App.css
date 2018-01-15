@@ -36,13 +36,13 @@ button {
 }
 
 .disabled {
-  display: none;
+	display: none;
 }
 
 .App {
-  text-align: center;
-  box-sizing: border-box;
-  font-size: 15px;
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 15px;
 	position: relative;
 	background: #F7F8F9;
 }
@@ -52,25 +52,25 @@ button {
 	}
 
 .App-logo {
-  width: 149px;
-  height: 21;
-  margin: 15px 0 11px 21px;
+	width: 149px;
+	height: 21;
+	margin: 15px 0 11px 21px;
 }
 
 .App-header {
-  position: fixed;
-  too: 0;
-  left: 0;
+	position: fixed;
+	too: 0;
+	left: 0;
 	right: 0;
-  background: #FFFFFF;
-  box-shadow: 0 1px 0 0 #E9ECEF;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100vw;
-  height: 48px;
-  color: white;
-	z-index: 3;
+	background: #FFFFFF;
+	box-shadow: 0 1px 0 0 #E9ECEF;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100vw;
+	height: 48px;
+	color: white;
+	z-index: 4;
 }
 
 .App-createEvent {
@@ -81,10 +81,26 @@ button {
 	display: none;
 }
 
+.overlay {
+	position: absolute;
+	z-index: 6;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0,16,33,0.40);
+}
+
 @media (min-width: 1280px) {
-  .App-header {
-    height: 71px;
-  }
+	p {
+		font-size: 15px;
+	}
+	.App-header {
+	height: 71px;
+	}
 	.App-logo {
 		margin-left: 24px;
 	}
@@ -99,6 +115,12 @@ button {
 		background: #007DFF;
 		border-radius: 4px;
 		margin-right: 24px;
+	}
+	.App-createEvent:hover {
+		background: #0058FF;
+	}
+	.App-createEvent:active {
+		background: #0122FE;
 	}
 	.hiddenDesktop {
 		display: none;

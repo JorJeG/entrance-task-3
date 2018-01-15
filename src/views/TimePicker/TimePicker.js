@@ -5,6 +5,7 @@ import './TimePicker.css';
 const TimePicker = (props) => (
 	<div hidden={props.newEvent} className='TimePicker'>
 		<Label
+			calendar={props.calendar}
 			selectCalendar={props.selectCalendar}
 			previusDay={props.previusDay}
 			nextDay={props.nextDay}

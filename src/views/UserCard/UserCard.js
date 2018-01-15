@@ -14,6 +14,14 @@ class UserCard extends Component {
 				</div>
 			)
 		}
+		if (this.props.type === 'popover') {
+			return (
+				<div className='user-popover-container'>
+					<img className='user-avatar user-avatar-popover' src={this.props.avatarUrl} alt={this.props.login} />
+					<p className='user-login user-login-popover'>{this.props.login}</p>
+				</div>
+			)
+		}
 		return (
 			<div className='user-container'>
 				<div className='user-search-item'>

@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: flex-start;
 	overflow: auto;
-	height: 100vh;
+	height: calc(100vh - 32px);
 	position: relative;
 }
 
@@ -26,6 +26,9 @@
 .styledLi {
 	display: flex;
 	margin-bottom: 2px;
+}
+.styledLi:hover .styledRoomTitle {
+	color: #0070E0;
 }
 .styledLi:last-child {
 	margin-bottom: 0;
@@ -63,7 +66,7 @@
 	box-shadow: 0 -1px 0 0 #E9ECEF;
 }
 .styledFloor-small {
-	font-size: 11px;
+	font-size: 12px;
 	padding-right: 5px;
 }
 .styledRoom {
@@ -122,11 +125,12 @@
 		top: 0;
 		left: 0;
 		width: 276px;
-		height: 100vh;
+		height: calc(100vh - 118px);
 		background: #FFFFFF;
 	}
 	.roomContainer {
 		margin-top: 47px;
+		height: calc(100vh - 118px);
 	}
 	.styledRoom {
 		position: relative;
@@ -138,11 +142,22 @@
 	}
 }
 
-.minutesCell {
+.minutesCell,
+.eventCell {
 	width: 15px;
 	height: 58px;
+	border: none;
 	background: #FFFFFF;
 	position: relative;
+}
+.eventCell {
+	background: #D5DFE9;
+}
+.eventCell:hover {
+	background: #98A9B9;
+}
+.eventCell:active {
+	background: #8594A3;
 }
 .minutesCell:first-child {
 	padding-left: 180px;
@@ -155,6 +170,8 @@
 	justify-content: center;
 	align-items: center;
 	position: absolute;
+	top: 0;
+	left: 0;
 	z-index: 1;
 	width: 60px;
 	height: 100%;
@@ -162,8 +179,31 @@
 	pointer-events: none;
 }
 
+.event-container {
+	height: 58px;
+	z-index: 1;
+}
+
+.eventContent {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-direction: column;
+	position: absolute;
+	padding: 16px;
+	left: -50%;
+	width: 340px;
+	height: 100px;
+	z-index: 2;
+	background: #FFFFFF;
+	box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+	border-radius: 8px;
+}
+
 @media (min-width: 1280px) {
-	.minutesCell {
+	.minutesCell,
+	.eventCell,
+	.event-container {
 		height: 28px;
 	}
 	.minutesCell:hover::before {

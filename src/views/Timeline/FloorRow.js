@@ -5,7 +5,7 @@ const FloorRow = (props) => {
 	if (only) {
 		return (
 			<li className='styledFloor styledFloor-fix'>
-				<span className='styledFloor-small'>{floor}</span> этаж
+				<small className='styledFloor-small'>{floor}</small> этаж
 			</li>
 		)
 	}

@@ -27,7 +27,7 @@
 	top: 25px;
 	left: 0;
 	width: 1px;
-	height: 100vh;
+	height: calc(100vh - 25px);
 	background: #007DFF;
 }
 .timeMobile::after,
@@ -50,6 +50,7 @@
 }
 .timeDesktop {
 	top: 34px;
+	height: calc(100vh - 34px);
 }
 
 .timeline-hour {
@@ -70,7 +71,7 @@
 	left: 0;
 	top: 32px;
 	width: 1px;
-	height: 100vh;
+	height: calc(100vh - 32px);
 	background: rgba(19,100,205,0.10);
 	z-index: 2;
 }
@@ -117,6 +118,6 @@
 	}
 	.timeline-hour::after {
 		top: 46px;
-		height: 100vh;
+		height: calc(100vh - 46px);
 	}
 }
