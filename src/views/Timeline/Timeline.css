@@ -114,7 +114,10 @@
 		bottom: 0;
 	}
 	.timeline-hour:first-child {
-		margin-left: 276px;
+		margin-left: 261px;
+	}
+	.timeline-hour:first-child  span{
+		color: #fff;
 	}
 	.timeline-hour::after {
 		top: 46px;
