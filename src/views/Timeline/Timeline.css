@@ -114,7 +114,7 @@
 		bottom: 0;
 	}
 	.timeline-hour:first-child {
-		margin-left: 260px;
+		margin-left: 276px;
 	}
 	.timeline-hour::after {
 		top: 46px;
