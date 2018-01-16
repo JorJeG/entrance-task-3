@@ -3,7 +3,7 @@ import {TopField, MiddleField, Footer} from '../';
 import './Form.css';
 
 const Form = (props) => {
-	const margin = !props.checked ? '115px' : '0';
+	const margin = !props.checked ? '115px' : '65px';
 	return (
 		<div
 			style={{marginBottom: margin}}
@@ -32,6 +32,7 @@ const Form = (props) => {
 				checked={props.checked} />
 			{props.editEvent &&
 				<button
+					style={{marginBottom: '27px'}}
 					onMouseUp={props.handleDeletePopover}
 					className='button-delete__mobile hiddenDesktop'
 					>
