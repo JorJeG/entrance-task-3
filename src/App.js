@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Moment from 'moment';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	Timeline,
 	Form,
@@ -434,7 +436,7 @@ class App extends Component {
 						newEvent={this.state.newEvent}
 						event={this.state.event}
 						rooms={this.state.rooms}
-						users={this.state.users}
+						users={this.props.feedQuery.users}
 						checked={this.state.checked}
 						filledTitle={this.state.filledTitle}
 						filledUser={this.state.filledUser}
@@ -458,7 +460,7 @@ class App extends Component {
 						editEvent={editEvent}
 						event={this.state.event}
 						rooms={this.state.rooms}
-						users={this.state.users}
+						users={this.props.feedQuery.users}
 						checked={this.state.checked}
 						filledTitle={this.state.filledTitle}
 						filledUser={this.state.filledUser}
@@ -499,4 +501,14 @@ class App extends Component {
 	}
 }
 
-export default App;
+const FEED_QUERY = gql`
+	query FeedQeury {
+		users {
+			id
+			login
+			avatarUrl
+		}
+	}
+`
+
+export default graphql(FEED_QUERY, {name: 'feedQuery'})(App);
