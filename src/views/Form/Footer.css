@@ -50,7 +50,8 @@
 	background: #0122FE;
 }
 
-.button-cancel {
+.button-cancel,
+.button-delete {
 	font-size: 15px;
 	background: #E9ECEF;
 	color: #000;
@@ -60,11 +61,21 @@
 	margin: 16px 0 20px 0;
 }
 
-.button-cancel:hover {
+.button-delete {
+	margin: 0;
+	margin-left: 16px;
+}
+.button-delete:first-child {
+	margin-left: 0;
+}
+
+.button-cancel:hover,
+.button-delete:hover {
 	background: #DDE0E4;
 }
 
-.button-cancel:active {
+.button-cancel:active,
+.button-delete:active {
 	background: #C7CDD3;
 }
 

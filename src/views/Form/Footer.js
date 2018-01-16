@@ -12,19 +12,21 @@ const Footer = (props) => {
 					Отмена
 				</button>
 				{props.editEvent &&
-					<button className='button-delete hiddenMobile'>
+					<button
+						onMouseUp={props.handleDeletePopover}
+						className='button-delete hiddenMobile'>
 						Удалить
 					</button>}
 				{props.editEvent &&
 					<button
-						disabled={!props.checked}
+						disabled={!props.checked || !props.filledTitle || !props.filledUser}
 						onMouseUp={props.onSaveEvent}
 						className='button-create'>
 						Сохранить
 					</button>}
 				{!props.editEvent &&
 					<button
-						disabled={!props.checked}
+						disabled={!props.checked || !props.filledTitle || !props.filledUser}
 						onMouseUp={props.onAddNewEvent}
 						className='button-create'>
 						Создать встречу

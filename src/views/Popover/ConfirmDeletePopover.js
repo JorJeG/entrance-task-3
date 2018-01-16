@@ -1,17 +1,26 @@
 import React from 'react';
+import './ConfirmDeletePopover.css';
 
 const ConfirmDeletePopover = (props) => {
 	return (
-		<div>
-			<div />
-			<h2>Встреча будет удалена безвозвратно</h2>
-			<div>
-				<button
-					onClick={props.onDeleteCancel}>Отмена
-				</button>
-				<button
-					onClick={props.onDeleteEvent}>Удалить
-				</button>
+		<div className='overlay'>
+			<div className='delete-container'>
+				<div className='delete-pic' />
+				<h2 className='delete-title'>
+					Встреча будет удалена безвозвратно
+				</h2>
+				<div>
+					<button
+						className='button-delete'
+						onMouseUp={props.onDeleteCancel}>
+						Отмена
+					</button>
+					<button
+						className='button-delete'
+						onMouseUp={props.onDeleteEvent}>
+						Удалить
+					</button>
+				</div>
 			</div>
 		</div>
 	)

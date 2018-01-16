@@ -19,6 +19,8 @@ import {
 	changeEventDateEnd,
 	changeEventDay,
 	addNewEvent,
+	deleteEvent,
+	saveEvent,
 	updateBox
 } from './helpers/helpers';
 import logo from './assets/touch/logo.svg';
@@ -42,6 +44,8 @@ class App extends Component {
 			users: [],
 			rooms: [],
 			checked: false,
+			filledTitle: false,
+			filledUser: false,
 			today: true,
 			now: Moment().format('HH:mm'),
 			offset: Moment.duration(Moment().format('HH:mm')).asMinutes(),
@@ -72,6 +76,8 @@ class App extends Component {
 		this.handleDeletePopover = this.handleDeletePopover.bind(this);
 		this.onEditEvent = this.onEditEvent.bind(this);
 		this.onSaveEvent = this.onSaveEvent.bind(this);
+		this.onDeleteEvent = this.onDeleteEvent.bind(this);
+		this.onDeleteCancel = this.onDeleteCancel.bind(this);
 	}
 	componentDidMount() {
 		this.setState({
@@ -162,16 +168,25 @@ class App extends Component {
 	handleTitle(e) {
 		const {event} = this.state;
 		const renamedTitleEvent = renameEvent(event, e.target.value);
-		this.setState({
-			event: renamedTitleEvent
-		});
+		if (e.target.value.length > 0) {
+			this.setState({
+				event: renamedTitleEvent,
+				filledTitle: true
+			});
+		} else {
+			this.setState({
+				event: renamedTitleEvent,
+				filledTitle: false
+			});
+		}
 	}
 	// Обработчик сброса названия события
 	handleClearTitle() {
 		const {event} = this.state;
 		const clearedTitleEvent = renameEvent(event, '');
 		this.setState({
-			event: clearedTitleEvent
+			event: clearedTitleEvent,
+			filledTitle: false
 		});
 	}
 	// Обработчик на изменение времени начала встречи
@@ -229,18 +244,29 @@ class App extends Component {
 	}
 	// Обработчик удаления пользователя из встречи
 	onDeleteUser(id) {
-		const updateUsers = removeUser(this.state.event, id);
-		this.setState({
-			event: updateUsers
-		});
+		const {event} = this.state;
+		const updateUsers = removeUser(event, id);
+		console.log(updateUsers.users.length);
+		if (updateUsers.users.length > 0) {
+			this.setState({
+					event: updateUsers,
+					filledUser: true
+			});
+		} else {
+			this.setState({
+					event: updateUsers,
+					filledUser: false
+			});
+		}
 	}
 	// Обработчик добавления пользователя к встрече
 	onAddUser(login) {
-		const {users} = this.state;
+		const {users, event} = this.state;
 		const user = users.find((user) => (user.login).toLowerCase() === login.toLowerCase());
-		const addedUser = addUser(this.state.event, user);
+		const addedUser = addUser(event, user);
 		this.setState({
-			event: addedUser
+			event: addedUser,
+			filledUser: true
 		}, () => this.setState({member: ''}));
 	}
 	// Обработчик переключения на создание встречи
@@ -270,7 +296,9 @@ class App extends Component {
 		this.setState({
 			newEvent: false,
 			editEvent: false,
-			checked: false
+			checked: false,
+			filledUser: false,
+			filledTitle: false
 		});
 	}
 	// Обработчик для добавления новой встречи
@@ -279,16 +307,48 @@ class App extends Component {
 		const addedEvent = addNewEvent(events, event);
 		this.setState({
 			events: addedEvent,
-			confirm: true,
 			newEvent: false,
-			confirmAdd: true
+			confirmAdd: true,
+			filledUser: false,
+			checked: false,
+			filledTitle: false
+		});
+	}
+	// Обработчик для сохранения изменений во встречи
+	onSaveEvent() {
+		const {events, event} = this.state;
+		const savedEvent = saveEvent(events, event);
+		this.setState({
+			events: savedEvent,
+			editEvent: false,
+			filledUser: false,
+			filledTitle: false,
+			checked: false
+		});
+	}
+	// Обработчик для удаления встречи
+	onDeleteEvent() {
+		const {events, event} = this.state;
+		const removedEvents = deleteEvent(events, event.id);
+		this.setState({
+			events: removedEvents,
+			confirmDelete: false,
+			checked: false
+		})
+	}
+	// Обработчик для отмены удаления встречи
+	onDeleteCancel() {
+		this.setState({
+			confirmDelete: false,
+			editEvent: true
 		});
 	}
 	// Обработчик поповера для встреч
 	handlePopover(e) {
 		const selectedCell = e.target;
 		const newPlace = updateBox(this.state.popover, selectedCell.getBoundingClientRect());
-		// console.log(e.target.getBoundingClientRect());
+		console.log(selectedCell.getBoundingClientRect());
+		console.log(window.screen);
 		// console.log(id);
 		const clickedEvent = this.state.events.find((event) => event.id === Number(selectedCell.dataset.id));
 		// console.log(this.popover.getBoundingClientRect());
@@ -313,7 +373,8 @@ class App extends Component {
 	// Обработчик включения подтверждения удаления
 	handleDeletePopover() {
 		this.setState({
-			confirmDelete: true
+			confirmDelete: true,
+			editEvent: false
 		});
 	}
 	// Обработчик включения редактирования
@@ -321,16 +382,10 @@ class App extends Component {
 		this.setState({
 			editEvent: true,
 			onEvent: false,
-			checked: true
+			checked: true,
+			filledUser: true,
+			filledTitle: true
 		})
-	}
-	// Обработчик для сохранения изменений во встречи
-	onSaveEvent() {
-
-	}
-	// Обработчик для удаления встречи
-	onDeleteEvent() {
-
 	}
 	render() {
 		const {
@@ -339,7 +394,6 @@ class App extends Component {
 			onEvent,
 			newEvent,
 			editEvent,
-			onAddNewEvent,
 			confirmAdd,
 			confirmDelete} = this.state;
 		const scroll = onEvent ? "fixed" : 'static';
@@ -382,6 +436,8 @@ class App extends Component {
 						rooms={this.state.rooms}
 						users={this.state.users}
 						checked={this.state.checked}
+						filledTitle={this.state.filledTitle}
+						filledUser={this.state.filledUser}
 						member={this.state.member}
 						eventTitle={this.state.event.title}
 						handleTitle={this.handleTitle}
@@ -393,8 +449,8 @@ class App extends Component {
 						handleUnCheck={this.handleUnCheck}
 						handleChange={this.handleChange}
 						handleCancel={this.cancelButton}
+						handleDeletePopoverr={this.handleDeletePopover}
 						onAddNewEvent={this.onAddNewEvent}
-						onDeleteUser={this.onDeleteUser}
 						onAddUser={(e) => this.onAddUser(e)} />}
 				{editEvent &&
 					<Form
@@ -404,6 +460,8 @@ class App extends Component {
 						rooms={this.state.rooms}
 						users={this.state.users}
 						checked={this.state.checked}
+						filledTitle={this.state.filledTitle}
+						filledUser={this.state.filledUser}
 						member={this.state.member}
 						eventTitle={this.state.event.title}
 						handleTitle={this.handleTitle}
@@ -415,6 +473,7 @@ class App extends Component {
 						handleUnCheck={this.handleUnCheck}
 						handleChange={this.handleChange}
 						handleCancel={this.cancelButton}
+						handleDeletePopover={this.handleDeletePopover}
 						onSaveEvent={this.onSaveEvent}
 						onDeleteUser={this.onDeleteUser}
 						onAddUser={(e) => this.onAddUser(e)}
@@ -431,7 +490,9 @@ class App extends Component {
 						handleConfrimPopover={this.handleConfrimPopover} />
 				}
 				{confirmDelete &&
-					<ConfirmDeletePopover />
+					<ConfirmDeletePopover
+						onDeleteEvent={this.onDeleteEvent}
+						onDeleteCancel={this.onDeleteCancel} />
 				}
 			</div>
 		);

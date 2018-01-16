@@ -1,4 +1,8 @@
 import Moment from 'moment';
+import {nearestFutureMinutes} from '../helpers/date';
+
+const now = Moment();
+const afterHour = Moment().add(1, 'hours');
 Moment.locale('ru', {
 	monthsShort: [
 		'Янв',
@@ -101,8 +105,8 @@ export const mockEvent = (event) => {
 	return Object.assign({}, event, {
 		id: generateId(),
 		title: '',
-		dateStart: Moment(),
-		dateEnd: Moment().add(1, 'hours'),
+		dateStart: nearestFutureMinutes(15, now),
+		dateEnd: nearestFutureMinutes(15, afterHour),
 		users: [],
 		room: {}
 	});
@@ -134,11 +138,11 @@ export const changeEventDateEnd = (event, dateEnd) => {
 export const changeEventDay = (event, date) => {
 	const dateHourStart = event.dateStart.format('HH');
 	const dateMinutesStart = event.dateStart.format('mm');
-	const dateHourEnd = event.dateStart.format('HH');
-	const dateMinutesEnd = event.dateStart.format('mm');
+	const dateHourEnd = event.dateEnd.format('HH');
+	const dateMinutesEnd = event.dateEnd.format('mm');
 	return Object.assign({}, event, {
-		dateStart: date.hours(dateHourStart).minutes(dateMinutesStart),
-		dateEnd: date.hours(dateHourEnd).minutes(dateMinutesEnd)
+		dateStart: date.clone().hours(dateHourStart).minutes(dateMinutesStart),
+		dateEnd: date.clone().hours(dateHourEnd).minutes(dateMinutesEnd)
 	});
 };
 
@@ -146,8 +150,36 @@ export const addNewEvent = (events, event) => {
 	return [...events, event];
 };
 
+export const deleteEvent = (events, id) => {
+	const removeIndex = events.findIndex((event) => event.id === id);
+	return [
+			...events.slice(0, removeIndex),
+			...events.slice(removeIndex + 1)
+		];
+};
+
+export const saveEvent = (events, changedEvent) => {
+	const removeIndex = events.findIndex((event) => event.id === changedEvent.id);
+	return [
+		...events.slice(0, removeIndex),
+		...events.slice(removeIndex + 1),
+		changedEvent
+	];
+}
+
 export const updateBox = (oldBox, newBox) => {
-	const left = window.screen.width > 360 ? newBox.left + newBox.width/2 - 180 : 0;
+	// Выравнивает на мобильном
+	// const left = window.screen.width > 360 ? newBox.left + newBox.width/2 - 180 : 0;
+	let left = null;
+	if (window.screen.width > 360) {
+		if (newBox.left > 920) {
+			left = newBox.left + newBox.width/2 - 360;
+		} else {
+			left = newBox.left + newBox.width/2 - 180;
+		}
+	} else {
+		left = 0;
+	}
 	const top = window.scrollY + newBox.top;
 	return Object.assign({}, oldBox, {
 		top: top,

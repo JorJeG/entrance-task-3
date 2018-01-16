@@ -31,7 +31,10 @@ const MiddleField = (props) => {
 				onChange={props.handleCheck}
 				type='checkbox' />
 			<label htmlFor={room.id}>
-				<span className='event-room-data'>16:00—16:30</span>
+				<span className='event-room-data'>
+					{props.event.dateStart.format('HH:mm – ')}
+					{props.event.dateEnd.format('HH:mm')}
+				</span>
 				<span className='event-room-desc'>{room.title} · {room.floor} этаж</span>
 			</label>
 		</div>
@@ -68,7 +71,8 @@ const MiddleField = (props) => {
 						<label htmlFor={props.event.room.id}>
 							<span
 								className='event-room-data'>
-								16:00—16:30
+								{props.event.dateStart.format('HH:mm – ')}
+								{props.event.dateEnd.format('HH:mm')}
 							</span>
 							<span
 								className='event-room-desc'>

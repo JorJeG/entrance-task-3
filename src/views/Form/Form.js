@@ -32,6 +32,7 @@ const Form = (props) => {
 				checked={props.checked} />
 			{props.editEvent &&
 				<button
+					onMouseUp={props.handleDeletePopover}
 					className='button-delete__mobile hiddenDesktop'
 					>
 					Удалить встречу
@@ -39,7 +40,10 @@ const Form = (props) => {
 			<Footer
 				editEvent={props.editEvent}
 				checked={props.checked}
+				filledTitle={props.filledTitle}
+				filledUser={props.filledUser}
 				onAddNewEvent={props.onAddNewEvent}
+				handleDeletePopover={props.handleDeletePopover}
 				onSaveEvent={props.onSaveEvent}
 				handleCancel={props.handleCancel} />
 		</div>

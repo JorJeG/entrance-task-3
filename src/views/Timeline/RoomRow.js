@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {dayInMinutes, isSelectedHour, isSelectedTime, eventDuration} from '../../helpers/date';
+import {dayInMinutes, isSelectedTime, eventDuration} from '../../helpers/date';
 
 class RoomRow extends Component {
 	constructor(props) {
@@ -42,7 +42,7 @@ class RoomRow extends Component {
 		this.props.handlePopover(e);
 	}
 	render() {
-		const {room, events, handlePopover} = this.props;
+		const {room, events} = this.props;
 		const {dayInM} = this.state;
 		const columns = [];
 		let minutes = 0;
