@@ -95,6 +95,9 @@ button {
 }
 
 @media (min-width: 1280px) {
+	.App {
+		overflow-x: hidden;
+	}
 	p {
 		font-size: 15px;
 	}

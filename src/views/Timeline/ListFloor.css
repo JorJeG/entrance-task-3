@@ -109,7 +109,7 @@
 
 @media (min-width: 1280px) {
 	.styledFloor {
-		width: 260px;
+		width: 261px;
 		height: 37px;
 		background: #FFFFFF;
 	}
@@ -128,7 +128,7 @@
 		content: '';
 		top: 0;
 		left: 0;
-		width: 260px;
+		width: 261px;
 		height: calc(100vh - 118px);
 		background: #FFFFFF;
 	}
@@ -139,7 +139,7 @@
 	}
 	.styledRoom {
 		position: relative;
-		width: 260px;
+		width: 261px;
 		height: 44px;
 	}
 	.styledRoomTitle {

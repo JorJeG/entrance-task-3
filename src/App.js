@@ -50,7 +50,7 @@ class App extends Component {
 			filledUser: false,
 			today: true,
 			now: Moment().format('HH:mm'),
-			offset: Moment.duration(Moment().format('HH:mm')).asMinutes(),
+			offset: Moment.duration(Moment({hour: 8}).format('HH:mm')).asMinutes(),
 			popover: {},
 			onEvent: false,
 			confirmAdd: false,

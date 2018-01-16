@@ -28,12 +28,12 @@ const Timeline = (props) => {
 						<span className='timeline-span'>{hour.format('H')}</span>
 					</div>
 					))}
-				{props.offset > 419 && <br
+				{props.offset > 425 && <br
 					hidden={!props.today}
 					className='timeMobile hiddenDesktop'
 					data-current-hour={props.now}
 					style={{left: offsetMobile}}/>}
-				{props.offset > 419 && <br hidden={!props.today} className='timeDesktop hiddenMobile'
+				{props.offset > 425 && <br hidden={!props.today} className='timeDesktop hiddenMobile'
 					data-current-hour={props.now}
 					style={{left: offsetDesktop}}/>}
 			</div>
