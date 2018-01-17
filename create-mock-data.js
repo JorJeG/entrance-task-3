@@ -1,4 +1,11 @@
+const Moment = require('moment');
 const { models, sequelize } = require('./models');
+
+// Чтобы выводить ровно по 15 минутному интервалу
+const nearestFutureMinutes = (interval, someMoment) => {
+	const roundedMinutes = Math.ceil(someMoment.minutes() / interval) * interval;
+	return someMoment.clone().minutes(roundedMinutes).second(0);
+}
 
 function createData() {
   const usersPromise = models.User.bulkCreate([
@@ -47,27 +54,27 @@ function createData() {
     },
   ]);
 
-  const HOUR = 60 * 60 * 1000;
-  const now = new Date();
-  const oneHourLater = new Date(now.getTime() + HOUR);
-  const twoHoursLater = new Date(oneHourLater.getTime() + HOUR);
-  const threeHoursLater = new Date(twoHoursLater.getTime() + HOUR);
+
+	const now = Moment().hour(12);
+	const oneHourLater = Moment().hour(12).clone().add(1, 'hour');
+	const twoHoursLater = Moment().hour(12).clone().add(2, 'hour');
+	const threeHoursLater = Moment().hour(12).clone().add(3, 'hour');
 
   const eventsPromise = models.Event.bulkCreate([
     {
       title: 'ШРИ 2018 - начало',
-      dateStart: now,
-      dateEnd: oneHourLater,
+      dateStart: nearestFutureMinutes(15, now),
+      dateEnd: nearestFutureMinutes(15, oneHourLater),
     },
     {
       title: '👾 Хакатон 👾',
-      dateStart: oneHourLater,
-      dateEnd: twoHoursLater,
+      dateStart: nearestFutureMinutes(15, oneHourLater),
+      dateEnd: nearestFutureMinutes(15, twoHoursLater),
     },
     {
       title: '🍨 Пробуем kefir.js',
-      dateStart: threeHoursLater,
-      dateEnd: twoHoursLater,
+      dateStart: nearestFutureMinutes(15, twoHoursLater),
+      dateEnd: nearestFutureMinutes(15, threeHoursLater),
     },
   ]);
 

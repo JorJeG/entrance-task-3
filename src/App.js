@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Moment from 'moment';
-import { graphql } from 'react-apollo';
+import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 import {
 	Timeline,
@@ -50,7 +50,7 @@ class App extends Component {
 			filledUser: false,
 			today: true,
 			now: Moment().format('HH:mm'),
-			offset: Moment.duration(Moment({hour: 8}).format('HH:mm')).asMinutes(),
+			offset: Moment.duration(Moment().format('HH:mm')).asMinutes(),
 			popover: {},
 			onEvent: false,
 			confirmAdd: false,
@@ -87,14 +87,14 @@ class App extends Component {
 			users,
 			events
 		})
-		this.container.addEventListener('scroll', this.handleScroll);
+		// this.container.addEventListener('scroll', this.handleScroll);
 		this.timerID = setInterval(
 			() => this.tick(),
 			60000
 		);
 	}
 	componentWillUnmount() {
-		this.container.removeEventListener('scroll', this.handleScroll);
+		// this.container.removeEventListener('scroll', this.handleScroll);
 		clearInterval(this.timerID);
 	}
 	shouldComponentUpdate(nextState) {
@@ -352,7 +352,7 @@ class App extends Component {
 		console.log(selectedCell.getBoundingClientRect());
 		console.log(window.screen);
 		// console.log(id);
-		const clickedEvent = this.state.events.find((event) => event.id === Number(selectedCell.dataset.id));
+		const clickedEvent = this.props.feedQuery.events.find((event) => Number(event.id) === Number(selectedCell.dataset.id));
 		// console.log(this.popover.getBoundingClientRect());
 		// console.log(window.scrollY);
 		this.setState(prevState => {
@@ -399,105 +399,110 @@ class App extends Component {
 			confirmAdd,
 			confirmDelete} = this.state;
 		const scroll = onEvent ? "fixed" : 'static';
-		return (
-			<div
-				// style={{position: scroll}}
-				className='App'>
-				<header className='App-header'>
-					<img src={logo} className='App-logo' alt='logo' />
-					<button hidden={this.state.newEvent || editEvent} onMouseUp={this.createEvent} className='App-createEvent'>Создать встречу</button>
-				</header>
-				<Timeline
-					onEvent={this.state.onEvent}
-					popover={this.state.popover}
-					handlePopover={this.handlePopover}
-					newEvent={this.state.newEvent}
-					editEvent={this.state.editEvent}
-					selectCalendar={this.selectCalendar}
-					previusDay={this.previusDay}
-					nextDay={this.nextDay}
-					selectedTime={this.state.selectedDay}
-					selectDay={this.selectDay}
-					calendar={this.state.calendar}
-					selectedDay={this.state.selectedDay}
-					events={this.state.events}
-					today={this.state.today}
-					now={this.state.now}
-					offset={this.state.offset}
-					createEvent={this.createEvent}
-					rooms={rooms}
-					left={this.state.left}
-					hidd={this.state.hidden}
-					scrollingRef={(el) => this.container = el}
-					scrolling={this.scrolling} />
-				{newEvent &&
-					<Form
-						title='Новая встреча'
+		const {feedQuery: {loading, rooms, users, events}} = this.props;
+		if (loading) {
+			return <p>loading...</p>
+		} else {
+			return (
+				<div
+					// style={{position: scroll}}
+					className='App'>
+					<header className='App-header'>
+						<img src={logo} className='App-logo' alt='logo' />
+						<button hidden={this.state.newEvent || editEvent} onMouseUp={this.createEvent} className='App-createEvent'>Создать встречу</button>
+					</header>
+					<Timeline
+						onEvent={this.state.onEvent}
+						popover={this.state.popover}
+						handlePopover={this.handlePopover}
 						newEvent={this.state.newEvent}
-						event={this.state.event}
-						rooms={this.state.rooms}
-						users={this.props.feedQuery.users}
-						checked={this.state.checked}
-						filledTitle={this.state.filledTitle}
-						filledUser={this.state.filledUser}
-						member={this.state.member}
-						eventTitle={this.state.event.title}
-						handleTitle={this.handleTitle}
-						handleClearTitle={this.handleClearTitle}
-						handleDate={this.handleDate}
-						handleHourStart={this.handleHourStart}
-						handleHourEnd={this.handleHourEnd}
-						handleCheck={this.handleCheck}
-						handleUnCheck={this.handleUnCheck}
-						handleChange={this.handleChange}
-						handleCancel={this.cancelButton}
-						handleDeletePopoverr={this.handleDeletePopover}
-						onAddNewEvent={this.onAddNewEvent}
-						onAddUser={(e) => this.onAddUser(e)} />}
-				{editEvent &&
-					<Form
-						title='Редактирование встречи'
-						editEvent={editEvent}
-						event={this.state.event}
-						rooms={this.state.rooms}
-						users={this.props.feedQuery.users}
-						checked={this.state.checked}
-						filledTitle={this.state.filledTitle}
-						filledUser={this.state.filledUser}
-						member={this.state.member}
-						eventTitle={this.state.event.title}
-						handleTitle={this.handleTitle}
-						handleClearTitle={this.handleClearTitle}
-						handleDate={this.handleDate}
-						handleHourStart={this.handleHourStart}
-						handleHourEnd={this.handleHourEnd}
-						handleCheck={this.handleCheck}
-						handleUnCheck={this.handleUnCheck}
-						handleChange={this.handleChange}
-						handleCancel={this.cancelButton}
-						handleDeletePopover={this.handleDeletePopover}
-						onSaveEvent={this.onSaveEvent}
-						onDeleteUser={this.onDeleteUser}
-						onAddUser={(e) => this.onAddUser(e)}
-					/>}
-				{onEvent &&
-					<EventPopover
-						onEditEvent={this.onEditEvent}
-						popover={popover}
-						popoverEvent={this.state.event}
-						/>}
-				{confirmAdd &&
-					<ConfirmAddPopover
-						event={event}
-						handleConfrimPopover={this.handleConfrimPopover} />
-				}
-				{confirmDelete &&
-					<ConfirmDeletePopover
-						onDeleteEvent={this.onDeleteEvent}
-						onDeleteCancel={this.onDeleteCancel} />
-				}
-			</div>
-		);
+						editEvent={this.state.editEvent}
+						selectCalendar={this.selectCalendar}
+						previusDay={this.previusDay}
+						nextDay={this.nextDay}
+						selectedTime={this.state.selectedDay}
+						selectDay={this.selectDay}
+						calendar={this.state.calendar}
+						selectedDay={this.state.selectedDay}
+						events={events}
+						rooms={rooms}
+						today={this.state.today}
+						now={this.state.now}
+						offset={this.state.offset}
+						createEvent={this.createEvent}
+						left={this.state.left}
+						hidd={this.state.hidden}
+						scrollingRef={(el) => this.container = el}
+						scrolling={this.scrolling} />
+						{newEvent &&
+							<Form
+								title='Новая встреча'
+								newEvent={this.state.newEvent}
+								event={this.state.event}
+								rooms={rooms}
+								users={users}
+								checked={this.state.checked}
+								filledTitle={this.state.filledTitle}
+								filledUser={this.state.filledUser}
+								member={this.state.member}
+								eventTitle={this.state.event.title}
+								handleTitle={this.handleTitle}
+								handleClearTitle={this.handleClearTitle}
+								handleDate={this.handleDate}
+								handleHourStart={this.handleHourStart}
+								handleHourEnd={this.handleHourEnd}
+								handleCheck={this.handleCheck}
+								handleUnCheck={this.handleUnCheck}
+								handleChange={this.handleChange}
+								handleCancel={this.cancelButton}
+								handleDeletePopoverr={this.handleDeletePopover}
+								onAddNewEvent={this.onAddNewEvent}
+								onAddUser={(e) => this.onAddUser(e)} />}
+								{editEvent &&
+									<Form
+										title='Редактирование встречи'
+										editEvent={editEvent}
+										event={this.state.event}
+										rooms={rooms}
+										users={users}
+										checked={this.state.checked}
+										filledTitle={this.state.filledTitle}
+										filledUser={this.state.filledUser}
+										member={this.state.member}
+										eventTitle={this.state.event.title}
+										handleTitle={this.handleTitle}
+										handleClearTitle={this.handleClearTitle}
+										handleDate={this.handleDate}
+										handleHourStart={this.handleHourStart}
+										handleHourEnd={this.handleHourEnd}
+										handleCheck={this.handleCheck}
+										handleUnCheck={this.handleUnCheck}
+										handleChange={this.handleChange}
+										handleCancel={this.cancelButton}
+										handleDeletePopover={this.handleDeletePopover}
+										onSaveEvent={this.onSaveEvent}
+										onDeleteUser={this.onDeleteUser}
+										onAddUser={(e) => this.onAddUser(e)}
+									/>}
+									{onEvent &&
+										<EventPopover
+											onEditEvent={this.onEditEvent}
+											popover={popover}
+											popoverEvent={this.state.event}
+										/>}
+										{confirmAdd &&
+											<ConfirmAddPopover
+												event={event}
+												handleConfrimPopover={this.handleConfrimPopover} />
+											}
+											{confirmDelete &&
+												<ConfirmDeletePopover
+													onDeleteEvent={this.onDeleteEvent}
+													onDeleteCancel={this.onDeleteCancel} />
+												}
+											</div>
+										);
+		}
 	}
 }
 
@@ -508,7 +513,31 @@ const FEED_QUERY = gql`
 			login
 			avatarUrl
 		}
+	rooms {
+		id
+		title
+		capacity
+		floor
 	}
-`
+	events {
+		id
+		title
+		dateStart
+		dateEnd
+		users {
+			id
+			login
+			homeFloor
+			avatarUrl
+		}
+		room {
+			id
+			title
+			capacity
+			floor
+		}
+	}
+	}
+`;
 
 export default graphql(FEED_QUERY, {name: 'feedQuery'})(App);

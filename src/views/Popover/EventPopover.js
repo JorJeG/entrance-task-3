@@ -1,8 +1,10 @@
 import React from 'react';
+import Moment from 'moment';
 import {UserCard} from '../';
 import './EventPopover.css';
 
 const EventPopover = (props) => {
+	const {popoverEvent: {dateStart, dateEnd}} = props;
 	return (
 		<div
 			className='popover-container'
@@ -17,8 +19,8 @@ const EventPopover = (props) => {
 			</div>
 			<div className='popover-item popover-item__data'>
 				<span>
-					{props.popoverEvent.dateStart.format('D MMMM, HH:mm – ')}
-					{props.popoverEvent.dateEnd.format('HH:mm · ')}
+					{Moment(dateStart).format('D MMMM, HH:mm – ')}
+					{Moment(dateEnd).format('HH:mm · ')}
 					{props.popoverEvent.room.title}
 				</span>
 			</div>

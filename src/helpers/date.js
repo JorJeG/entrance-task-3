@@ -87,13 +87,20 @@ export const dayInMinutes = (selectedDay) => {
 }
 
 export const eventDuration = (dateStart, dateEnd) => {
-	return Array.from(moment.range(dateStart, dateEnd.clone().subtract(1, 'minutes')).by('minutes')).length;
+	return Array.from(moment.range(Moment(dateStart), Moment(dateEnd).clone().subtract(1, 'minutes')).by('minutes')).length;
 }
 
-export const isSame = (day) => Moment(Moment()).isSame(day, 'day');
-export const isSelected = (day, selected) => selected.isSame(day, 'day');
-export const isSelectedTime = (time, selected) => selected.isSame(time, 'minute');
-export const isSelectedHour = (time, selected) => selected.isSame(time, 'hours');
+export const eventDurationToEnd = (dateStart) => {
+	return Array.from(moment.range(Moment(dateStart), Moment(dateStart).clone().endOf('day').add(1, 'ms'))).length;
+}
+
+export const isSame = (day) => Moment(Moment()).isSame(Moment(day), 'day');
+
+export const isSelected = (day, selected) => Moment(selected).isSame(Moment(day), 'day');
+
+export const isSelectedTime = (time, selected) => Moment(selected).isSame(Moment(time), 'minute');
+
+export const isSelectedHour = (time, selected) => Moment(selected).isSame(Moment(time), 'hours');
 
 const months = [firstMonth(), secondMonth(), thirdMonth()];
 

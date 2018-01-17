@@ -17,6 +17,7 @@ module.exports = {
     return models.Room.findById(id);
   },
   rooms(root, args, context) {
-    return models.Room.findAll({ offset: 1 }, context);
+		// offset не давал выводить первую комнату =/
+    return models.Room.findAll({}, context);
   },
 };

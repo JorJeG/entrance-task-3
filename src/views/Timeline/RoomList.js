@@ -1,10 +1,14 @@
 import React from 'react';
+import {graphql} from 'react-apollo';
+import gql from 'graphql-tag';
 import {FloorRow, RoomRow, OnlyRoom} from '../';
 
 const RoomList = (props) => {
 	const rows = [];
 	let lastFloor = null;
+	console.log(props.rooms);
 	props.rooms.forEach((room) => {
+		console.log(room);
 		if (room.floor !== lastFloor) {
 			rows.push(<FloorRow
 				only={props.only}
@@ -34,6 +38,18 @@ const RoomList = (props) => {
 			{rows}
 		</React.Fragment>
 	);
-}
+};
 
-export default RoomList;
+const ROOMS_QUERY = gql`
+	query FeedQeury {
+		rooms {
+			id
+			title
+			capacity
+			floor
+		}
+	}
+`;
+
+
+export default graphql(ROOMS_QUERY, {name: 'roomsQuery'})(RoomList);

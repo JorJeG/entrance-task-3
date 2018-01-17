@@ -1,8 +1,10 @@
 import React from 'react';
+import Moment from 'moment';
 import {UserCard, Search} from '../';
 import './MiddleField.css';
 
 const MiddleField = (props) => {
+	const {event: {dateStart, dateEnd}} = props;
 	const filteredUserList = props.users.filter((user) => {
 		for (let i = 0; i < props.event.users.length; i += 1) {
 			if (props.event.users[i].id === user.id) {
@@ -32,8 +34,8 @@ const MiddleField = (props) => {
 				type='checkbox' />
 			<label htmlFor={room.id}>
 				<span className='event-room-data'>
-					{props.event.dateStart.format('HH:mm – ')}
-					{props.event.dateEnd.format('HH:mm')}
+					{Moment(dateStart).format('HH:mm – ')}
+					{Moment(dateEnd).format('HH:mm')}
 				</span>
 				<span className='event-room-desc'>{room.title} · {room.floor} этаж</span>
 			</label>
@@ -71,8 +73,8 @@ const MiddleField = (props) => {
 						<label htmlFor={props.event.room.id}>
 							<span
 								className='event-room-data'>
-								{props.event.dateStart.format('HH:mm – ')}
-								{props.event.dateEnd.format('HH:mm')}
+								{Moment(dateStart).format('HH:mm – ')}
+								{Moment(dateEnd).format('HH:mm')}
 							</span>
 							<span
 								className='event-room-desc'>

@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import {dayInMinutes, isSelectedTime, eventDuration} from '../../helpers/date';
+import {
+	dayInMinutes,
+	isSelectedTime,
+	eventDuration,
+	eventDurationToEnd
+} from '../../helpers/date';
 
 class RoomRow extends Component {
 	constructor(props) {
@@ -57,7 +62,7 @@ class RoomRow extends Component {
 				if (findEvent) {
 					// Высчитывает ширину ячеек, последние обрезает чтобы не выставлялись
 					let width = eventDuration(findEvent.dateStart, findEvent.dateEnd);
-					const lastHours = eventDuration(findEvent.dateStart, findEvent.dateStart.clone().endOf('day').add(1, 'ms'));
+					const lastHours = eventDurationToEnd(findEvent.dateStart);
 					switch(lastHours) {
 						case 15:
 							width = 15;
