@@ -45,14 +45,14 @@ class Timeline extends Component {
 							</div>
 						</div>
 						))}
-					{this.props.offset > 419 && <br
+					{this.props.offset > 419 && <div
 						hidden={!this.props.today}
 						className='timeMobile hiddenDesktop'
 						data-current-hour={this.props.now}
-						style={{left: offsetMobile, height: `${this.state.height}px`}}/>}
-					{this.props.offset > 419 && <br hidden={!this.props.today} className='timeDesktop hiddenMobile'
+						style={{left: offsetMobile, height: `${this.state.height}px`}}></div>}
+					{this.props.offset > 419 && <div hidden={!this.props.today} className='timeDesktop hiddenMobile'
 						data-current-hour={this.props.now}
-						style={{left: offsetDesktop, height: `${this.state.height}px`}}/>}
+						style={{left: offsetDesktop, height: `${this.state.height}px`}}></div>}
 				</div>
 				<ListFloor
 					height={this.state.height}

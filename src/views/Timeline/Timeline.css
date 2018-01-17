@@ -21,7 +21,6 @@
 .timeMobile,
 .timeDesktop {
 	position: absolute;
-	display: block;
 	content: '';
 	z-index: 2;
 	margin-left: 245px;
