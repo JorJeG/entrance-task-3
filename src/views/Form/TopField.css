@@ -51,7 +51,6 @@
 	padding: 13px 12px 14px 10px;
 	font-size: 15px;
 	color: #000000;
-	letter-spacing: 0.47px;
 }
 .event-title__input:hover {
 	border-color: #007DFF;
@@ -149,7 +148,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		padding-top: 103px;
-		margin-bottom: 0;
+		margin-bottom: 24px;
 	}
 
 	.container-header {
@@ -160,7 +159,7 @@
 	}
 
 	.event-title {
-		padding-bottom: 24px;
+		padding-bottom: 0;
 	}
 	.event-title__input {
 		width: 420px;
@@ -181,13 +180,15 @@
 	.event-data-container {
 		flex-direction: row;
 		margin-left: 32px;
-		padding-bottom: 24px;
+		margin-bottom: 0;
+		padding-bottom: 0;
 	}
-	.event-data-inner {
+	.event-data-inner,
+	.event-data-inner:last-child {
 		margin-bottom: 0;
 	}
-	.event-data-inner:last-child {
-		margin-left: 16px;
+	.event-data-hour:first-child {
+		padding-left: 16px;
 	}
 	.event-data-hour:last-child::before {
 		top: 32px;

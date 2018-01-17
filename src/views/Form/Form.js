@@ -3,7 +3,8 @@ import {TopField, MiddleField, Footer} from '../';
 import './Form.css';
 
 const Form = (props) => {
-	const margin = !props.checked ? '115px' : '65px';
+	let margin = !props.checked ? '115px' : '65px';
+	margin = window.screen.width > 1280 ? '40px' : margin;
 	return (
 		<div
 			style={{marginBottom: margin}}

@@ -25,5 +25,5 @@ export const rooms = [
 	},
 	{
 		id: '9gfds324', title: 'Белорусский ликёр', capacity: 6, floor: 6
-	},
+	}
 ];

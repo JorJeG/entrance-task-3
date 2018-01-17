@@ -1,3 +1,7 @@
+.mid-container {
+	padding-bottom: 80px;
+}
+
 .user-search-wrapper {
 	display: flex;
 	flex-direction: column;
@@ -73,11 +77,12 @@
 
 .event-room-desc {
 	display: inline-flex;
-	width: 173px;
+	width: 180px;
 	font-size: 15px;
 	font-weight: 300;
 	white-space: nowrap;
-	overflow: scroll;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .room-uncheck {
@@ -96,6 +101,7 @@
 		max-width: 872px;
 		display: flex;
 		align-items: flex-start;
+		padding-bottom: 80px;
 	}
 
 	.user-search-wrapper {

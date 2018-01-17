@@ -4,7 +4,8 @@ import './ListFloor.css';
 
 const ListFloor = (props) => {
 	return (
-		<div className='roomContainer'>
+		<div
+			className='roomContainer'>
 			<ul className='list-container'>
 					<RoomList
 						onEvent={props.onEvent}
@@ -16,7 +17,6 @@ const ListFloor = (props) => {
 			</ul>
 		</div>
 	)
-}
-
+};
 
 export default ListFloor;

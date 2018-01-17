@@ -19,7 +19,7 @@ const Search = (props) => {
 			mode='combobox'
 			value={props.member}
 			placeholder='Например, Тор Одинович'
-			dropdownStyle={{height: 136, overflow: 'auto'}}
+			dropdownStyle={{overflow: 'hidden'}}
 			defaultActiveFirstOption={false}
 			defaultValue=''
 			showArrow={false}

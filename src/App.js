@@ -396,10 +396,8 @@ class App extends Component {
 			editEvent,
 			confirmAdd,
 			confirmDelete} = this.state;
-		const scroll = onEvent ? "fixed" : 'static';
 		return (
 			<div
-				// style={{position: scroll}}
 				className='App'>
 				<header className='App-header'>
 					<img src={logo} className='App-logo' alt='logo' />

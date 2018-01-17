@@ -75,6 +75,11 @@
 		width: 24px;
 		height: 24px;
 	}
+	.user-avatar-search {
+		width: 24px;
+		height: 24px;
+		margin-left: 0;
+	}
 	.user-login-popover {
 		font-size: 13px;
 	}

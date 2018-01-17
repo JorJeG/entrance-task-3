@@ -1,9 +1,9 @@
 .roomContainer {
 	display: flex;
 	justify-content: flex-start;
-	overflow: auto;
-	height: calc(100vh - 32px);
+	/* height: calc(100vh - 32px); */
 	position: relative;
+	/* overflow: hidden; */
 }
 
 .list-container {
@@ -108,8 +108,13 @@
 }
 
 @media (min-width: 1280px) {
+	.roomContainer {
+		margin-top: 47px;
+		/* margin: 47px auto 0 auto; */
+		/* height: calc(100vh - 118px); */
+	}
 	.styledFloor {
-		width: 261px;
+		width: 260px;
 		height: 37px;
 		background: #FFFFFF;
 	}
@@ -121,25 +126,21 @@
 		overflow: hidden;
 	}
 	.list-container {
-		overflow: hidden;
+		/* overflow: hidden; */
 	}
 	.list-container::before {
 		position: absolute;
 		content: '';
 		top: 0;
 		left: 0;
-		width: 261px;
+		width: 260px;
 		height: calc(100vh - 118px);
 		background: #FFFFFF;
-	}
-	.roomContainer {
-		margin-top: 47px;
-		/* margin: 47px auto 0 auto; */
-		height: calc(100vh - 118px);
+		display: none;
 	}
 	.styledRoom {
 		position: relative;
-		width: 261px;
+		width: 260px;
 		height: 44px;
 	}
 	.styledRoomTitle {
