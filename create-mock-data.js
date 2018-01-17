@@ -3,9 +3,9 @@ const { models, sequelize } = require('./models');
 
 // Чтобы выводить ровно по 15 минутному интервалу
 const nearestFutureMinutes = (interval, someMoment) => {
-	const roundedMinutes = Math.ceil(someMoment.minutes() / interval) * interval;
-	return someMoment.clone().minutes(roundedMinutes).second(0);
-}
+  const roundedMinutes = Math.ceil(someMoment.minutes() / interval) * interval;
+  return someMoment.clone().minutes(roundedMinutes).second(0);
+};
 
 function createData() {
   const usersPromise = models.User.bulkCreate([
@@ -55,10 +55,10 @@ function createData() {
   ]);
 
 
-	const now = Moment().hour(12);
-	const oneHourLater = Moment().hour(12).clone().add(1, 'hour');
-	const twoHoursLater = Moment().hour(12).clone().add(2, 'hour');
-	const threeHoursLater = Moment().hour(12).clone().add(3, 'hour');
+  const now = Moment().hour(12);
+  const oneHourLater = Moment().hour(12).clone().add(1, 'hour');
+  const twoHoursLater = Moment().hour(12).clone().add(2, 'hour');
+  const threeHoursLater = Moment().hour(12).clone().add(3, 'hour');
 
   const eventsPromise = models.Event.bulkCreate([
     {
