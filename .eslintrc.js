@@ -3,8 +3,7 @@ module.exports = {
 	"plugins": [
 		"eslint-plugin-import",
 		"eslint-plugin-jsx-a11y",
-		"eslint-plugin-react",
-		"eslint-plugin-flowtype"
+		"eslint-plugin-react"
 	],
 	"rules": {
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
