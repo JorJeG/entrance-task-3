@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import Moment from 'moment';
 import { UserCard, Search } from '../';
@@ -6,34 +5,51 @@ import './MiddleField.css';
 import Close from './Close';
 
 const MiddleField = (props) => {
-  const { event: { dateStart, dateEnd } } = props;
-  const filteredUserList = props.users.filter((user) => {
-    for (let i = 0; i < props.event.users.length; i += 1) {
-      if (props.event.users[i].id === user.id) {
+  const {
+    event: {
+      dateStart,
+      dateEnd,
+      users,
+      room,
+    },
+    users: usersAll,
+    rooms,
+    member,
+    checked,
+    handleCheck,
+    handleUnCheck,
+    onDeleteUser,
+    handleChange,
+    onAddUser,
+  } = props;
+  const rootB = document.getElementById('root');
+  const filteredUserList = usersAll.filter((user) => {
+    for (let i = 0; i < users.length; i += 1) {
+      if (users[i].id === user.id) {
         return false;
       }
     }
     return true;
   });
-  const userList = props.event.users.map(user => (
+  const userList = users.map(user => (
     <UserCard
       key={user.id}
       value={user.id}
       // Вроде нужно передавать контекст, чтобы ссылалось обратно в этот класс
       // Без этого ошибка, не видит состояние users
-      onDeleteUser={props.onDeleteUser}
+      onDeleteUser={onDeleteUser}
       login={user.login}
       avatarUrl={user.avatarUrl}
     />
   ));
-  const checkboxes = props.rooms.map(room => (
+  const checkboxes = rooms.map(room => (
     <div className="event-room-checkbox">
       <input
         key={room.id}
         id={room.id}
         value={room.id}
-        checked={props.checked}
-        onChange={props.handleCheck}
+        checked={checked}
+        onChange={handleCheck}
         type="checkbox"
       />
       <label htmlFor={room.id}>
@@ -45,7 +61,6 @@ const MiddleField = (props) => {
       </label>
     </div>
   ));
-  const rootB = document.getElementById('root');
   return (
     <div
       className="mid-container"
@@ -55,9 +70,9 @@ const MiddleField = (props) => {
           <h3>Участники</h3>
           <Search
             users={filteredUserList}
-            member={props.member}
-            handleChange={props.handleChange}
-            onAddUser={props.onAddUser}
+            member={member}
+            handleChange={handleChange}
+            onAddUser={onAddUser}
           />
         </div>
         <div className="user-list">
@@ -66,19 +81,19 @@ const MiddleField = (props) => {
       </div>
       <div className="room-container">
         <div className="room-header">
-          <h3>{props.checked ? 'Ваша переговорка' : 'Рекомендованные переговорки'}</h3>
+          <h3>{checked ? 'Ваша переговорка' : 'Рекомендованные переговорки'}</h3>
         </div>
         {props.checked ? (
           <div className="event-room-checkbox event-room-checkbox__checked">
             <input
-              key={props.event.room.id}
-              id={props.event.room.id}
-              value={props.event.room.id}
-              checked={props.checked}
-              onChange={props.handleCheck}
+              key={room.id}
+              id={room.id}
+              value={room.id}
+              checked={checked}
+              onChange={handleCheck}
               type="checkbox"
             />
-            <label htmlFor={props.event.room.id}>
+            <label htmlFor={room.id}>
               <span
                 className="event-room-data"
               >
@@ -88,19 +103,19 @@ const MiddleField = (props) => {
               <span
                 className="event-room-desc"
               >
-                {props.event.room.title} · {props.event.room.floor} этаж
+                {room.title} · {room.floor} этаж
               </span>
             </label>
             <button
               className="room-uncheck"
-              onClick={props.handleUnCheck}
+              onClick={handleUnCheck}
             >
               {rootB.clientWidth >= 1280 ? <Close type="desktop" /> : <Close type="touch" />}
             </button>
           </div>
-				) : (
-					checkboxes
-				)}
+        ) : (
+          checkboxes
+        )}
       </div>
     </div>);
 };

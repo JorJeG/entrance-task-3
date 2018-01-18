@@ -1,7 +1,8 @@
 import React from 'react';
 
 const Close = (props) => {
-  if (props.type === 'touch') {
+  const { type } = props;
+  if (type === 'touch') {
     return (
       <svg width={13} height={13} viewBox="0 0 13 13" {...props}>
         <title>close</title>
@@ -14,7 +15,7 @@ const Close = (props) => {
         </g>
       </svg>
     );
-  } else if (props.type === 'desktop') {
+  } else if (type === 'desktop') {
     return (
       <svg width={10} height={10} viewBox="0 0 10 10" {...props}>
         <title>close</title>

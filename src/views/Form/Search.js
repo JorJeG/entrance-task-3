@@ -6,27 +6,33 @@ import './Search.css';
 const { Option } = Select;
 
 const Search = (props) => {
-  const options = props.users.map(d =>	(
-    <Option key={d.login} className="option-container" >
+  const {
+    users,
+    member,
+    onAddUser,
+    handleChange
+  } = props;
+  const options = users.map(d => (
+    <Option key={d.login} className="option-container">
       <UserCard
         type="search"
         login={d.login}
         avatarUrl={d.avatarUrl}
       />
-			· {d.homeFloor} этаж
+      · {d.homeFloor} этаж
     </Option>));
   return (
     <Select
       mode="combobox"
-      value={props.member}
+      value={member}
       placeholder="Например, Тор Одинович"
       dropdownStyle={{ overflow: 'hidden' }}
       defaultActiveFirstOption={false}
       defaultValue=""
       showArrow={false}
       filterOption
-      onChange={props.handleChange}
-      onSelect={props.onAddUser}
+      onChange={handleChange}
+      onSelect={onAddUser}
     >
       {options}
     </Select>

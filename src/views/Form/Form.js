@@ -3,8 +3,34 @@ import { TopField, MiddleField, Footer } from '../';
 import './Form.css';
 
 const Form = (props) => {
+  const {
+    title,
+    event,
+    eventTitle,
+    users,
+    rooms,
+    member,
+    checked,
+    filledTitle,
+    filledUser,
+    handleDate,
+    handleHourStart,
+    handleHourEnd,
+    handleTitle,
+    handleClearTitle,
+    handleCancel,
+    handleChange,
+    handleCheck,
+    handleUnCheck,
+    onAddUser,
+    onDeleteUser,
+    onAddNewEvent,
+    onSaveEvent,
+    editEvent,
+    handleDeletePopover,
+  } = props;
   const rootB = document.getElementById('root');
-  let margin = props.checked ? '65px' : '110px';
+  let margin = checked ? '65px' : '110px';
   margin = rootB.clientWidth >= 1280 ? '0' : margin;
   return (
     <div
@@ -12,45 +38,45 @@ const Form = (props) => {
       className="form-wrapper"
     >
       <TopField
-        title={props.title}
-        event={props.event}
-        eventTitle={props.eventTitle}
-        handleCancel={props.handleCancel}
-        handleTitle={props.handleTitle}
-        handleClearTitle={props.handleClearTitle}
-        handleDate={props.handleDate}
-        handleHourStart={props.handleHourStart}
-        handleHourEnd={props.handleHourEnd}
+        title={title}
+        event={event}
+        eventTitle={eventTitle}
+        handleCancel={handleCancel}
+        handleTitle={handleTitle}
+        handleClearTitle={handleClearTitle}
+        handleDate={handleDate}
+        handleHourStart={handleHourStart}
+        handleHourEnd={handleHourEnd}
       />
       <MiddleField
-        users={props.users}
-        event={props.event}
-        rooms={props.rooms}
-        member={props.member}
-        onAddUser={props.onAddUser}
-        handleChange={props.handleChange}
-        handleCheck={props.handleCheck}
-        onDeleteUser={props.onDeleteUser}
-        handleUnCheck={props.handleUnCheck}
-        editEvent={props.editEvent}
-        checked={props.checked}
+        users={users}
+        event={event}
+        rooms={rooms}
+        member={member}
+        checked={checked}
+        handleChange={handleChange}
+        handleCheck={handleCheck}
+        handleUnCheck={handleUnCheck}
+        onAddUser={onAddUser}
+        onDeleteUser={onDeleteUser}
+        editEvent={editEvent}
       />
-      {props.editEvent &&
+      {editEvent &&
       <button
-        onMouseUp={props.handleDeletePopover}
+        onMouseUp={handleDeletePopover}
         className="button-delete__mobile hiddenDesktop"
       >
-					Удалить встречу
+        Удалить встречу
       </button>}
       <Footer
-        editEvent={props.editEvent}
-        checked={props.checked}
-        filledTitle={props.filledTitle}
-        filledUser={props.filledUser}
-        onAddNewEvent={props.onAddNewEvent}
-        handleDeletePopover={props.handleDeletePopover}
-        onSaveEvent={props.onSaveEvent}
-        handleCancel={props.handleCancel}
+        checked={checked}
+        filledTitle={filledTitle}
+        filledUser={filledUser}
+        editEvent={editEvent}
+        onAddNewEvent={onAddNewEvent}
+        handleDeletePopover={handleDeletePopover}
+        onSaveEvent={onSaveEvent}
+        handleCancel={handleCancel}
       />
     </div>
   );

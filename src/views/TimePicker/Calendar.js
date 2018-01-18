@@ -8,7 +8,10 @@ class Calendar extends Component {
     this.props.selectDay(e.target.value);
   }
   render() {
-    const { calendar, selectedDay } = this.props;
+    const {
+    calendar,
+    selectedDay,
+  } = this.props;
     return (
       <div className={calendar ? 'calendar' : 'disabled'}>
         {months.map(month => (

@@ -11,10 +11,10 @@ const EventPopover = (props) => {
       dateEnd,
       room,
       users,
-      title
+      title,
     },
     popover,
-    onEditEvent
+    onEditEvent,
   } = props;
   const adjustTop = popover.top + 29;
   return (

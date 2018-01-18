@@ -14,13 +14,13 @@ const ConfirmDeletePopover = props => (
           className="button-delete"
           onMouseUp={props.onDeleteCancel}
         >
-						Отмена
+          Отмена
         </button>
         <button
           className="button-delete"
           onMouseUp={props.onDeleteEvent}
         >
-						Удалить
+          Удалить
         </button>
       </div>
     </div>

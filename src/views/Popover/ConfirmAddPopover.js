@@ -5,8 +5,12 @@ import emoji from '../../assets/touch/emoji2.svg';
 
 const ConfirmAddPopover = (props) => {
   const {
-    event: {dateStart, dateEnd, room},
-    handleConfrimPopover
+    event: {
+      dateStart,
+      dateEnd,
+      room,
+    },
+    handleConfrimPopover,
   } = props;
   return (
     <div className="overlay">

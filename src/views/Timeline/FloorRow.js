@@ -1,7 +1,10 @@
 import React from 'react';
 
 const FloorRow = (props) => {
-  const { floor, only } = props;
+  const {
+    floor,
+    only,
+  } = props;
   if (only) {
     return (
       <li className="styledFloor styledFloor-fix">

@@ -157,8 +157,8 @@ class App extends Component {
   // Обработчик добавления пользователя к встрече
   onAddUser(login) {
     const { users, event } = this.state;
-    const user = users.find(user => (user.login).toLowerCase() === login.toLowerCase());
-    const addedUser = addUser(event, user);
+    const currentUser = users.find(user => (user.login).toLowerCase() === login.toLowerCase());
+    const addedUser = addUser(event, currentUser);
     this.setState({
       event: addedUser,
       filledUser: true,
@@ -296,8 +296,8 @@ class App extends Component {
   // Обработчик на выбор комнаты
   handleCheck(e) {
     const { event, rooms } = this.state;
-    const room = rooms.find(room => room.id === e.target.value);
-    const addedRoom = addRoom(event, room);
+    const curentRoom = rooms.find(room => room.id === e.target.value);
+    const addedRoom = addRoom(event, curentRoom);
     this.setState({
       event: addedRoom,
       checked: true,
@@ -345,9 +345,11 @@ class App extends Component {
   }
   // Обработчик поповера для встреч
   handlePopover(e) {
+    const { popover } = this.state;
+    const { feedQuery: { events } } = this.props;
     const selectedCell = e.target;
-    const newPlace = updateBox(this.state.popover, selectedCell.getBoundingClientRect());
-    const clickedEvent = this.props.feedQuery.events.find(event => Number(event.id) === Number(selectedCell.dataset.id));
+    const newPlace = updateBox(popover, selectedCell.getBoundingClientRect());
+    const clickedEvent = events.find(event => Number(event.id) === Number(selectedCell.dataset.id));
     // console.log(this.popover.getBoundingClientRect());
     // console.log(window.scrollY);
     this.setState(prevState => ({
@@ -381,8 +383,18 @@ class App extends Component {
       editEvent,
       confirmAdd,
       confirmDelete,
+      selectedDay,
+      calendar,
+      hidden,
+      offset,
+      left,
+      now,
+      today,
+      checked,
+      filledUser,
+      filledTitle,
+      member
     } = this.state;
-    const scroll = onEvent ? 'fixed' : 'static';
     const {
       feedQuery: {
         loading, rooms, users, events,
@@ -393,13 +405,12 @@ class App extends Component {
     }
     return (
       <div
-        // style={{position: scroll}}
         className="App"
       >
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <button
-            hidden={this.state.newEvent || editEvent}
+            hidden={newEvent || editEvent}
             onMouseUp={this.createEvent}
             className="App-createEvent"
           >
@@ -407,41 +418,41 @@ class App extends Component {
           </button>
         </header>
         <Timeline
-          onEvent={this.state.onEvent}
-          popover={this.state.popover}
+          onEvent={onEvent}
+          popover={popover}
+          newEvent={newEvent}
+          editEvent={editEvent}
+          selectedTime={selectedDay}
+          selectedDay={selectedDay}
+          calendar={calendar}
+          hidd={hidden}
+          offset={offset}
+          left={left}
+          now={now}
+          today={today}
           handlePopover={this.handlePopover}
-          newEvent={this.state.newEvent}
-          editEvent={this.state.editEvent}
           selectCalendar={this.selectCalendar}
           previusDay={this.previusDay}
           nextDay={this.nextDay}
-          selectedTime={this.state.selectedDay}
           selectDay={this.selectDay}
-          calendar={this.state.calendar}
-          selectedDay={this.state.selectedDay}
           events={events}
           rooms={rooms}
-          today={this.state.today}
-          now={this.state.now}
-          offset={this.state.offset}
           createEvent={this.createEvent}
-          left={this.state.left}
-          hidd={this.state.hidden}
           scrollingRef={el => this.container = el}
           scrolling={this.scrolling}
         />
         {newEvent &&
         <Form
           title="Новая встреча"
-          newEvent={this.state.newEvent}
-          event={this.state.event}
           rooms={rooms}
           users={users}
-          checked={this.state.checked}
-          filledTitle={this.state.filledTitle}
-          filledUser={this.state.filledUser}
-          member={this.state.member}
-          eventTitle={this.state.event.title}
+          newEvent={newEvent}
+          event={event}
+          checked={checked}
+          filledTitle={filledTitle}
+          filledUser={filledUser}
+          member={member}
+          eventTitle={event.title}
           handleTitle={this.handleTitle}
           handleClearTitle={this.handleClearTitle}
           handleDate={this.handleDate}
@@ -452,21 +463,22 @@ class App extends Component {
           handleChange={this.handleChange}
           handleCancel={this.cancelButton}
           handleDeletePopoverr={this.handleDeletePopover}
+          onDeleteUser={this.onDeleteUser}
           onAddNewEvent={this.onAddNewEvent}
           onAddUser={e => this.onAddUser(e)}
         />}
         {editEvent &&
         <Form
           title="Редактирование встречи"
-          editEvent={editEvent}
-          event={this.state.event}
           rooms={rooms}
           users={users}
-          checked={this.state.checked}
-          filledTitle={this.state.filledTitle}
-          filledUser={this.state.filledUser}
-          member={this.state.member}
-          eventTitle={this.state.event.title}
+          editEvent={editEvent}
+          event={event}
+          checked={checked}
+          filledTitle={filledTitle}
+          filledUser={filledUser}
+          member={member}
+          eventTitle={event.title}
           handleTitle={this.handleTitle}
           handleClearTitle={this.handleClearTitle}
           handleDate={this.handleDate}
@@ -485,7 +497,7 @@ class App extends Component {
         <EventPopover
           onEditEvent={this.onEditEvent}
           popover={popover}
-          popoverEvent={this.state.event}
+          popoverEvent={event}
         />}
         {confirmAdd &&
         <ConfirmAddPopover
