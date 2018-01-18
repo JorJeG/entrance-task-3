@@ -9,8 +9,8 @@ const EventPopover = (props) => {
 		<div
 			className='popover-container'
 			style={{
-				top: adjustTop,
-				left: props.popover.left,
+				top: `${adjustTop}px`,
+				left: `${props.popover.left}px`,
 			}}
 			>
 			<div className='popover-item popover-item__title'>
