@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Close from '../Form/Close';
 import './UserCard.css';
 
 class UserCard extends Component {
@@ -22,17 +23,40 @@ class UserCard extends Component {
 				</div>
 			)
 		}
-		return (
-			<div className='user-container'>
-				<div className='user-search-item'>
-					<img className='user-avatar' src={this.props.avatarUrl} alt={this.props.login} />
-					<p className='user-login'>{this.props.login}</p>
+		let rootB = document.getElementById('root');
+		if (rootB.clientWidth >= 1280) {
+			return (
+				<div className='user-container'>
+					<div className='user-search-item'>
+						<img className='user-avatar' src={this.props.avatarUrl} alt={this.props.login} />
+						<p className='user-login'>{this.props.login}</p>
+					</div>
+					<div className='user-search-item'>
+						<button
+							onClick={() => this.handleDelete()}
+							className='remove-user'>
+							<Close type='desktop' />
+						</button>
+					</div>
 				</div>
-				<div className='user-search-item'>
-					<button onClick={() => this.handleDelete()} className='remove-user' />
+			);
+		} else {
+			return (
+				<div className='user-container'>
+					<div className='user-search-item'>
+						<img className='user-avatar' src={this.props.avatarUrl} alt={this.props.login} />
+						<p className='user-login'>{this.props.login}</p>
+					</div>
+					<div className='user-search-item'>
+						<button
+							onClick={() => this.handleDelete()}
+							className='remove-user'>
+							<Close type='touch' />
+						</button>
+					</div>
 				</div>
-			</div>
-		)
+			);
+		}
 	}
 }
 

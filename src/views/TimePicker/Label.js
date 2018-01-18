@@ -1,10 +1,10 @@
 import React from 'react';
-import arrow from '../../assets/touch/arrow.svg';
+import Arrow from './Arrow';
 
 const Label = (props) => (
 	<div className='PickerLabel'>
 		<button className='PickerButton' onClick={props.previusDay}>
-			<img className='previus' src={arrow} alt='previus day' />
+			<Arrow />
 		</button>
 		<button
 			className='data'
@@ -20,7 +20,7 @@ const Label = (props) => (
 			})}
 		</button>
 		<button className='PickerButton' onClick={props.nextDay}>
-			<img className='next' src={arrow} alt='next day' />
+			<Arrow />
 		</button>
 	</div>
 );

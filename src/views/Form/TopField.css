@@ -4,6 +4,7 @@
 	padding: 0 16px;
 	padding-top: 72px;
 	margin-bottom: 8px;
+	flex-shrink: 0;
 }
 
 .container-header {
@@ -15,9 +16,6 @@
 
 .container-header__title {
 	width: 328px;
-	font-size: 20px;
-	color: #000000;
-	line-height: 24px;
 	text-align: left;
 }
 
@@ -25,11 +23,11 @@
 	margin: 0;
 	width: 24px;
 	height: 24px;
-	background: #E9ECEF url(../../assets/desktop/close.svg) no-repeat center;
+	background: #E9ECEF;
 	border-radius: 50%;
 }
-.container-close:hover {
-	background-image: url(../../assets/desktop/close-black.svg);
+.container-close:hover path {
+	fill: #000000;
 }
 
 .event-title {
@@ -48,7 +46,7 @@
 	background: #FFFFFF;
 	border: 2px solid #E9ECEF;
 	border-radius: 4px;
-	padding: 13px 12px 14px 10px;
+	padding: 13px 0 14px 10px;
 	font-size: 15px;
 	color: #000000;
 }
@@ -57,7 +55,6 @@
 }
 
 .event-title__close {
-	box-sizing: border-box;
 	position: absolute;
 	top: 14px;
 	right: 12px;
@@ -67,10 +64,15 @@
 	width: 16px;
 	height: 16px;
 	border: none;
-	background: url(../../assets/touch/close.svg) no-repeat center;
 }
-.event-title-container:hover .event-title__close {
-	background-image: url(../../assets/touch/close-black.svg);
+
+.event-title__close svg {
+	padding-right: 12px;
+
+}
+
+.event-title-container:hover .event-title__close path:last-child {
+	fill: #000000;
 }
 
 .event-data-container {
@@ -79,19 +81,24 @@
 	align-items: center;
 	padding-bottom: 20px;
 }
+
 .event-data-inner {
 	margin-bottom: 8px;
 }
+
 .event-data-inner:last-child {
 	display: flex;
 	margin-bottom: 0;
 }
+
 .event-data-hour {
 	position: relative;
 }
+
 .event-data-hour:last-child {
 	margin-left: 22px;
 }
+
 .event-data-hour:last-child::before {
 	position: absolute;
 	font-weight: 600;
@@ -109,6 +116,9 @@
 .antd-DatePicker:hover .ant-calendar-picker-input {
 	border-color: #007DFF !important;
 }
+.antd-DatePicker:hover .ant-calendar-picker-icon {
+	display: none;
+}
 .ant-input {
 	margin: 0;
 	font-size: 15px;
@@ -120,9 +130,9 @@
 .ant-calendar-picker-icon::after {
 	content: '';
 	right: 0;
-	background: url(../../assets/desktop/calendar.svg) no-repeat center;
-	width: 12px;
-	height: 12px;
+	background: url(../../assets/touch/calendar.svg) no-repeat center;
+	width: 16px;
+	height: 16px;
 }
 
 .ant-time-picker {
@@ -171,10 +181,9 @@
 		top: 11px;
 		width: 16px;
 		height: 16px;
-		background-image: url(../../assets/desktop/close.svg);
 	}
 	.event-title-container:hover .event-title__close {
-		background-image: url(../../assets/desktop/close-black.svg);
+
 	}
 
 	.event-data-container {
@@ -205,5 +214,13 @@
 	}
 	.ant-time-picker {
 		width: 72px;
+	}
+
+	.ant-calendar-picker-icon::after {
+		content: '';
+		right: 0;
+		background: url(../../assets/desktop/calendar.svg) no-repeat center;
+		width: 12px;
+		height: 12px;
 	}
 }

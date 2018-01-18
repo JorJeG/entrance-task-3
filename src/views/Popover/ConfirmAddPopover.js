@@ -1,12 +1,13 @@
 import React from 'react';
 import './ConfirmAddPopover.css';
+import emoji from '../../assets/touch/emoji2.svg';
 
 const ConfirmAddPopover = (props) => {
 	return (
 		<div className='overlay'>
 			<div className='confirm-container'>
-				<div className='confirm-pic' />
-				<h2 className='confirm-title'>Встреча создана!</h2>
+				<img className='confirm-pic' src={emoji} alt='happy' />
+				<h1 className='confirm-title'>Встреча создана!</h1>
 				<p className='confirm-desc'>
 					{props.event.dateStart.format('D MMMM, HH:mm – ')}
 					{props.event.dateEnd.format('HH:mm')}</p>

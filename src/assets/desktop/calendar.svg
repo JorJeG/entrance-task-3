@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
-    <title>calendar</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="assets" transform="translate(-140.000000, -76.000000)">
-            <g id="calendar" transform="translate(138.000000, 74.000000)">
-                <rect id="Rectangle-2" x="0" y="0" width="16" height="16"></rect>
-                <path d="M3,6 L3,13 L13,13 L13,6 L3,6 Z M12,3 L14,3 L14,14 L2,14 L2,3 L4,3 L4,2 L6,2 L6,3 L10,3 L10,2 L12,2 L12,3 Z M4,7 L4,9 L6,9 L6,7 L4,7 Z M7,7 L7,9 L9,9 L9,7 L7,7 Z M4,10 L4,12 L6,12 L6,10 L4,10 Z" id="ic_calendar" fill="#AFB4B8" fill-rule="nonzero"></path>
-            </g>
-        </g>
-    </g>
-</svg>
+<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M-2-2h16v16H-2z"/><path d="M1 4v7h10V4H1zm9-3h2v11H0V1h2V0h2v1h4V0h2v1zM2 5v2h2V5H2zm3 0v2h2V5H5zM2 8v2h2V8H2z" fill="#AFB4B8" fill-rule="nonzero"/></g></svg>

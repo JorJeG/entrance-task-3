@@ -1,6 +1,6 @@
 @media (min-width: 1280px) {
 	.form-wrapper {
-		height: calc(100vh - 72px);
+		min-height: 100vh;
 		background: #fff;
 		display: flex;
 		flex-direction: column;

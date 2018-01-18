@@ -1,6 +1,7 @@
 import React from 'react';
 import {UserCard} from '../';
 import './EventPopover.css';
+import Edit from './Edit.js';
 
 const EventPopover = (props) => {
 	return (
@@ -13,15 +14,19 @@ const EventPopover = (props) => {
 			>
 			<div className='popover-item popover-item__title'>
 				<h2 className='popover-title'>{props.popoverEvent.title}</h2>
-				<button className='edit-button' onMouseUp={props.onEditEvent} />
+				<button
+					className='edit-button'
+					onMouseUp={props.onEditEvent}>
+							<Edit />
+				</button>
 			</div>
-			<div className='popover-item popover-item__data'>
+			<p className='popover-item popover-item__data'>
 				<span>
 					{props.popoverEvent.dateStart.format('D MMMM, HH:mm – ')}
 					{props.popoverEvent.dateEnd.format('HH:mm · ')}
 					{props.popoverEvent.room.title}
 				</span>
-			</div>
+			</p>
 			<div className='popover-item'>
 				<UserCard
 					type='popover'

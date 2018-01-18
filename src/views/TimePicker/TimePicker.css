@@ -19,18 +19,20 @@
 .PickerButton {
 	width: 32px;
 	height: 32px;
+	background: #E9ECEF;
+	border-radius: 16px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: #E9ECEF;
-	border-radius: 16px;
 }
-.next {
-	transform: rotate(180deg) translateX(-2px);
+.PickerButton:first-child svg {
+	margin-right: 3px;
 }
-.previus {
-	transform: translateX(-2px);
+
+.PickerButton:last-child svg {
+	transform: rotate(180deg);
 }
+
 .data {
 	font-size: 15px;
 	font-weight: 500;
@@ -50,5 +52,18 @@
 	.PickerButton {
 		width: 24px;
 		height: 24px;
+	}
+	.PickerButton:hover path {
+		stroke-opacity: 1
+	}
+	.PickerButton:last-child {
+		transform: none;
+	}
+	.PickerButton:first-child svg {
+		transform: rotate(180deg);
+	}
+	.PickerButton:last-child svg {
+		transform: none;
+		margin-left: 2px;
 	}
 }

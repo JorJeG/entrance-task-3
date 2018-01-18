@@ -9,8 +9,9 @@
 	background: #FFFFFF;
 	box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
 	border-radius: 8px;
-	z-index: 5;
+	z-index: 2;
 }
+
 .popover-container::before {
 	content: '';
 	position: absolute;
@@ -24,8 +25,8 @@
 	border-left-color: transparent;
 	border-right-color: transparent;
 }
+
 .popover-item {
-	font-size: 15px;
 	display: flex;
 	-ms-align-items: center;
 	align-items: center;
@@ -36,11 +37,15 @@
 	display: flex;
 	justify-content: space-between;
 }
+
 .edit-button {
 	width: 24px;
 	height: 24px;
-	background: #E9ECEF url(../../assets/touch/edit.svg) no-repeat center;
 	border-radius: 16px;
+	display: flex;
+	justify-content: center;
+	aling-items: center;
+	background: #E9ECEF;
 }
 
 .popover-item__data {
@@ -52,10 +57,10 @@
 }
 
 @media (min-width: 1280px) {
-	.popover-item {
-		font-size: 13px;
+	.edit-button path:last-child {
+		fill: rgba(0,0,0,0.43);
 	}
-	.edit-button {
-		background-image: url(../../assets/desktop/edit.svg);
+	.edit-button:hover path:last-child {
+		fill: #000;
 	}
 }

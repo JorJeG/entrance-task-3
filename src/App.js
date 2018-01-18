@@ -401,6 +401,7 @@ class App extends Component {
 				className='App'>
 				<header className='App-header'>
 					<img src={logo} className='App-logo' alt='logo' />
+					{/* <Logo className='App-logo' /> */}
 					<button hidden={this.state.newEvent || editEvent} onMouseUp={this.createEvent} className='App-createEvent'>Создать встречу</button>
 				</header>
 				<Timeline

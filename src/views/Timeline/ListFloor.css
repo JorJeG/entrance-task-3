@@ -118,23 +118,28 @@
 		width: 260px;
 		height: 37px;
 		background: #FFFFFF;
+		padding-bottom: 4px;
+	}
+	.styledFloor:first-child {
+		height: 39px;
 	}
 	.styledLi {
 		margin-bottom: 0;
+		padding-bottom: 8px;
 		position: relative;
 		display: flex;
 		align-items: center;
 		overflow: hidden;
 	}
+
 	.list-container::before {
 		position: absolute;
 		content: '';
 		top: 0;
 		left: 0;
 		width: 260px;
-		height: calc(100vh - 118px);
+		height: 100%;
 		background: #FFFFFF;
-		display: none;
 	}
 	.styledRoom {
 		position: relative;

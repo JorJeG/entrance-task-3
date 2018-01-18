@@ -1,5 +1,6 @@
 import React from 'react';
 import {UserCard, Search} from '../';
+import Close from './Close';
 import './MiddleField.css';
 
 const MiddleField = (props) => {
@@ -39,6 +40,7 @@ const MiddleField = (props) => {
 			</label>
 		</div>
 	));
+	let rootB = document.getElementById('root');
 	return (
 		<div
 			className='mid-container'>
@@ -81,7 +83,9 @@ const MiddleField = (props) => {
 						</label>
 						<button
 							className='room-uncheck'
-							onClick={props.handleUnCheck} />
+							onClick={props.handleUnCheck}>
+							{rootB.clientWidth >= 1280 ? <Close type='desktop' /> : <Close type='touch' />}
+						</button>
 					</div>
 				) : (
 					checkboxes

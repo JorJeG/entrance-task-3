@@ -1,11 +1,12 @@
 import React from 'react';
 import './ConfirmDeletePopover.css';
+import emoji from '../../assets/touch/emoji1.svg';
 
 const ConfirmDeletePopover = (props) => {
 	return (
 		<div className='overlay'>
 			<div className='delete-container'>
-				<div className='delete-pic' />
+				<img className='delete-confirm' src={emoji} alt='condolence' />
 				<h2 className='delete-title'>
 					Встреча будет удалена безвозвратно
 				</h2>
