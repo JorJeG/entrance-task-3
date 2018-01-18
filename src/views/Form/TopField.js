@@ -62,7 +62,7 @@ const TopField = (props) => {
             format="D MMMM, YYYY"
             showToday={false}
             disabledDate={cur => cur < moment().subtract(1, 'days').endOf('day')}
-            value={dateStart}
+            value={moment(dateStart)}
             onChange={handleDate}
           />
         </div>
@@ -74,7 +74,7 @@ const TopField = (props) => {
               minuteStep={15}
               disabledHours={() => (isSame(dateStart) ?
                 range(7, moment().format('HH')) : range(7, moment().startOf('day').format('HH')))}
-              value={dateStart}
+              value={moment(dateStart)}
               onChange={handleHourStart}
             />
           </div>
@@ -84,7 +84,7 @@ const TopField = (props) => {
               format="HH:mm"
               minuteStep={15}
               disabledHours={() => range(7, moment(dateStart).format('HH'))}
-              value={dateEnd}
+              value={moment(dateEnd)}
               onChange={handleHourEnd}
             />
           </div>

@@ -78,11 +78,13 @@ class RoomRow extends Component {
           }
           // Нужно для того, чтобы пропустить занятое время
           minutes = index + (width / 15);
-          return columns.push(<div className="event-container">
+          return columns.push(<div
+            key={`${room.title}-${hour.format('HH:mm')}`}
+            className="event-container"
+          >
             <button
               style={{ width: `${width}px` }}
               data-id={findEvent.id}
-              key={hour.format()}
               className="eventCell"
               onMouseUp={e => this.handlerPopover(e)}
               value={hour.format()}
@@ -93,7 +95,7 @@ class RoomRow extends Component {
       return columns.push(<button
         onMouseUp={e => this.handleCreate(e)}
         data-room={room.id}
-        key={hour.format()}
+        key={`${room.title}-${hour.format('HH:mm')}`}
         value={hour.format()}
         className="minutesCell"
       />);

@@ -141,7 +141,6 @@ class App extends Component {
   onDeleteUser(id) {
     const { event } = this.state;
     const updateUsers = removeUser(event, id);
-    console.log(updateUsers.users.length);
     if (updateUsers.users.length > 0) {
       this.setState({
         event: updateUsers,
@@ -156,8 +155,8 @@ class App extends Component {
   }
   // Обработчик добавления пользователя к встрече
   onAddUser(login) {
-    const { users, event } = this.state;
-    const currentUser = users.find(user => (user.login).toLowerCase() === login.toLowerCase());
+    const { event } = this.state;
+    const currentUser = this.props.feedQuery.users.find(user => (user.login).toLowerCase() === login.toLowerCase());
     const addedUser = addUser(event, currentUser);
     this.setState({
       event: addedUser,
@@ -271,7 +270,7 @@ class App extends Component {
   handleHourEnd(time) {
     const { event } = this.state;
     const a = event.dateStart;
-    if (a.diff(Moment(time)) > 0) {
+    if (Moment(a).diff(Moment(time)) > 0) {
       return;
     }
     const changedEventDateEnd = changeEventDateEnd(event, Moment(time));
@@ -295,8 +294,8 @@ class App extends Component {
   }
   // Обработчик на выбор комнаты
   handleCheck(e) {
-    const { event, rooms } = this.state;
-    const curentRoom = rooms.find(room => room.id === e.target.value);
+    const { event } = this.state;
+    const curentRoom = this.props.feedQuery.rooms.find(room => room.id === e.target.value);
     const addedRoom = addRoom(event, curentRoom);
     this.setState({
       event: addedRoom,
@@ -315,7 +314,7 @@ class App extends Component {
   // Обработчик переключения на создание встречи
   createEvent(e, id) {
     if (typeof e === 'string') {
-      const currentRoom = this.state.rooms.find(room => room.id === id);
+      const currentRoom = this.props.feedQuery.rooms.find(room => room.id === id);
       const eventWithTime = newEventWithTime(this.state.event, e, currentRoom);
 
       this.setState({

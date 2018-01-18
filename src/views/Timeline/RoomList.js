@@ -9,7 +9,7 @@ const RoomList = (props) => {
       rows.push(<FloorRow
         only={props.only}
         floor={room.floor}
-        key={room.floor}
+        key={`floor_${room.floor}`}
       />);
     }
     if (props.only) {

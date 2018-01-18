@@ -33,7 +33,7 @@ const MiddleField = (props) => {
   });
   const userList = users.map(user => (
     <UserCard
-      key={user.id}
+      key={`userid_${user.id}`}
       value={user.id}
       // Вроде нужно передавать контекст, чтобы ссылалось обратно в этот класс
       // Без этого ошибка, не видит состояние users
@@ -43,16 +43,18 @@ const MiddleField = (props) => {
     />
   ));
   const checkboxes = rooms.map(room => (
-    <div className="event-room-checkbox">
+    <div
+      key={`roomid_${room.id}`}
+      className="event-room-checkbox"
+    >
       <input
-        key={room.id}
-        id={room.id}
+        id={`roomid_${room.id}`}
         value={room.id}
         checked={checked}
         onChange={handleCheck}
         type="checkbox"
       />
-      <label htmlFor={room.id}>
+      <label htmlFor={`roomid_${room.id}`}>
         <span className="event-room-data">
           {Moment(dateStart).format('HH:mm – ')}
           {Moment(dateEnd).format('HH:mm')}
@@ -86,14 +88,9 @@ const MiddleField = (props) => {
         {props.checked ? (
           <div className="event-room-checkbox event-room-checkbox__checked">
             <input
-              key={room.id}
-              id={room.id}
-              value={room.id}
-              checked={checked}
-              onChange={handleCheck}
               type="checkbox"
             />
-            <label htmlFor={room.id}>
+            <label htmlFor={`roomid_${room.id}`}>
               <span
                 className="event-room-data"
               >
