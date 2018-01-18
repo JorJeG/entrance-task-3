@@ -169,14 +169,20 @@ export const saveEvent = (events, changedEvent) => {
 
 export const updateBox = (oldBox, newBox) => {
 	// Выравнивает на мобильном
-	// const left = window.screen.width > 360 ? newBox.left + newBox.width/2 - 180 : 0;
 	let left = null;
-	if (window.screen.width > 360) {
-		if (newBox.left > 920) {
+	const rootB = document.getElementById('root').clientWidth;
+	const listFloorB = document.getElementById('listFloor').clientWidth;
+	const allWidth = window.screen.availWidth;
+	let diff = allWidth - listFloorB;
+	if (rootB > 1280) {
+		if (newBox.left - diff > 780) {
 			left = newBox.left + newBox.width/2 - 360;
 		} else {
 			left = newBox.left + newBox.width/2 - 180;
 		}
+	} else if (rootB > 360) {
+		// Пока так чтобы не вылезало
+		left = newBox.left + newBox.width/2 - 360;
 	} else {
 		left = 0;
 	}

@@ -4,11 +4,12 @@ import './EventPopover.css';
 import Edit from './Edit.js';
 
 const EventPopover = (props) => {
+	const adjustTop = props.popover.top + 29;
 	return (
 		<div
 			className='popover-container'
 			style={{
-				top: props.popover.top + 29,
+				top: adjustTop,
 				left: props.popover.left,
 			}}
 			>

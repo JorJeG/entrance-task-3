@@ -345,14 +345,11 @@ class App extends Component {
 	}
 	// Обработчик поповера для встреч
 	handlePopover(e) {
+		const {popover, events} = this.state;
 		const selectedCell = e.target;
-		const newPlace = updateBox(this.state.popover, selectedCell.getBoundingClientRect());
-		console.log(selectedCell.getBoundingClientRect());
-		console.log(window.screen);
-		// console.log(id);
-		const clickedEvent = this.state.events.find((event) => event.id === Number(selectedCell.dataset.id));
-		// console.log(this.popover.getBoundingClientRect());
-		// console.log(window.scrollY);
+		const newPlace = updateBox(popover, selectedCell.getBoundingClientRect());
+		const clickedEvent = events.find((event) => event.id === Number(selectedCell.dataset.id));
+
 		this.setState(prevState => {
 			return {
 				popover: newPlace,
