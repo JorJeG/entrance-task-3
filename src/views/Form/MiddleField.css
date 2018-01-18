@@ -1,3 +1,7 @@
+.mid-container {
+	margin: 0 auto;
+}
+
 .user-search-wrapper {
 	display: flex;
 	flex-direction: column;
@@ -73,11 +77,12 @@
 
 .event-room-desc {
 	display: inline-flex;
-	width: 173px;
+	width: 180px;
 	font-size: 15px;
 	font-weight: 300;
 	white-space: nowrap;
-	overflow: scroll;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .room-uncheck {
@@ -87,7 +92,14 @@
 	width: 16px;
 	height: 16px;
 	border: none;
-	background: url(../../assets/touch/close-white.svg) no-repeat center;
+}
+
+.room-uncheck svg {
+	flex-shrink: 0;
+}
+
+.room-uncheck path:last-child {
+	fill: #FFFFFF;
 }
 
 @media (min-width: 1280px) {
@@ -96,6 +108,8 @@
 		max-width: 872px;
 		display: flex;
 		align-items: flex-start;
+		padding-bottom: 80px;
+		flex-shrink: 0;
 	}
 
 	.user-search-wrapper {
@@ -137,9 +151,5 @@
 	.event-room-desc {
 		width: 287px;
 		font-size: 13px;
-	}
-
-	.room-uncheck {
-		background-image: url(../../assets/desktop/close-white.svg);
 	}
 }

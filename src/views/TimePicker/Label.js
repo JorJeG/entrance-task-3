@@ -1,10 +1,10 @@
 import React from 'react';
-import arrow from '../../assets/touch/arrow.svg';
+import Arrow from './Arrow';
 
 const Label = props => (
   <div className="PickerLabel">
     <button className="PickerButton" onClick={props.previusDay}>
-      <img className="previus" src={arrow} alt="previus day" />
+      <Arrow />
     </button>
     <button
       className="data"
@@ -12,16 +12,16 @@ const Label = props => (
       onClick={props.selectCalendar}
     >
       {props.selectedTime.calendar(null, {
-        lastDay: 'D MMM · [Вчера]',
-        sameDay: 'D MMM · [Сегодня]',
-        nextDay: 'D MMM · [Завтра]',
-        lastWeek: 'D MMM · ddd',
-        nextWeek: 'D MMM · ddd',
-        sameElse: 'D MMM · ddd',
-      })}
+				lastDay: 'D MMM · [Вчера]',
+				sameDay: 'D MMM · [Сегодня]',
+				nextDay: 'D MMM · [Завтра]',
+				lastWeek: 'D MMM · ddd',
+				nextWeek: 'D MMM · ddd',
+				sameElse: 'D MMM · ddd',
+			})}
     </button>
     <button className="PickerButton" onClick={props.nextDay}>
-      <img className="next" src={arrow} alt="next day" />
+      <Arrow />
     </button>
   </div>
 );

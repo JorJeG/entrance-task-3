@@ -1,17 +1,23 @@
 import React from 'react';
 import { DatePicker, TimePicker } from 'antd';
-import Moment from 'moment';
+import moment from 'moment';
+import Close from './Close';
 import './TopField.css';
 import { range } from '../../helpers/helpers';
 import { isSame } from '../../helpers/date';
 
 const TopField = (props) => {
-  const { event: { dateStart, dateEnd } } = props;
+  const rootB = document.getElementById('root');
   return (
     <div className="top-container">
       <div className="container-header">
         <h2 className="container-header__title">{props.title}</h2>
-        <button onMouseUp={props.handleCancel} className="container-close hiddenMobile" />
+        <button
+          onMouseUp={props.handleCancel}
+          className="container-close hiddenMobile"
+        >
+          <Close type="desktop" />
+        </button>
       </div>
       <div className="event-title">
         <div>
@@ -28,7 +34,9 @@ const TopField = (props) => {
             <button
               className="event-title__close"
               onClick={props.handleClearTitle}
-            />}
+            >
+              {rootB.clientWidth >= 1280 ? <Close type="desktop" /> : <Close type="touch" />}
+            </button>}
           </div>
         </div>
       </div>
@@ -39,8 +47,8 @@ const TopField = (props) => {
             className="antd-DatePicker"
             format="D MMMM, YYYY"
             showToday={false}
-            disabledDate={cur => cur < Moment().subtract(1, 'days').endOf('day')}
-            value={Moment(dateStart)}
+            disabledDate={cur => cur < moment().subtract(1, 'days').endOf('day')}
+            value={props.event.dateStart}
             onChange={props.handleDate}
           />
         </div>
@@ -51,9 +59,8 @@ const TopField = (props) => {
               format="HH:mm"
               minuteStep={15}
               disabledHours={() => (isSame(props.event.dateStart) ?
-                range(7, Moment().format('HH')) :
-                range(7, Moment().startOf('day').format('HH')))}
-              value={Moment(dateStart)}
+											range(7, moment().format('HH')) : range(7, moment().startOf('day').format('HH')))}
+              value={props.event.dateStart}
               onChange={props.handleHourStart}
             />
           </div>
@@ -62,8 +69,8 @@ const TopField = (props) => {
             <TimePicker
               format="HH:mm"
               minuteStep={15}
-              disabledHours={() => range(7, Moment(dateStart).format('HH'))}
-              value={Moment(dateEnd)}
+              disabledHours={() => range(7, moment(props.event.dateStart).format('HH'))}
+              value={props.event.dateEnd}
               onChange={props.handleHourEnd}
             />
           </div>

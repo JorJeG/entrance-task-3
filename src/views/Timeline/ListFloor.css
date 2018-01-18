@@ -1,8 +1,6 @@
 .roomContainer {
 	display: flex;
 	justify-content: flex-start;
-	overflow: auto;
-	height: calc(100vh - 32px);
 	position: relative;
 }
 
@@ -11,16 +9,6 @@
 	list-style: none;
 	padding: 0;
 	background: #F7F8F9;
-}
-.list-container-fix {
-	margin: 0;
-	list-style: none;
-	padding: 0;
-	overflow-x: scroll;
-	position: absolute;
-	z-index: 1;
-	top: 139px;
-	/* transition: left 0.3s ease; */
 }
 
 .styledLi {
@@ -32,13 +20,6 @@
 }
 .styledLi:last-child {
 	margin-bottom: 0;
-}
-.styledLi-fix {
-	display: flex;
-	padding: 0;
-	height: 24px;
-	margin-bottom: 36px;
-	position: relative;
 }
 
 .styledFloor {
@@ -85,6 +66,35 @@
 	align-items: flex-start;
 	align-self: flex-start;
 }
+
+.styledRoomTitle {
+	display: block;
+	width: 140px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.list-container-fix {
+	margin: 0;
+	list-style: none;
+	padding: 0;
+	position: absolute;
+	z-index: 1;
+	top: 139px;
+	pointer-events: none;
+	/* transition: left 0.3s ease; */
+}
+
+.styledLi-fix {
+	display: flex;
+	padding: 0;
+	height: 24px;
+	margin: 0;
+	margin-bottom: 36px;
+	position: relative;
+}
+
 .styledRoom-fix {
 	display: inline-block;
 	padding: 8px 6px;
@@ -94,52 +104,46 @@
 	border-radius: 4px;
 }
 
-.styledRoomTitle {
-	display: block;
-	width: 140px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
 .styledRoomTitle-fix {
 	font-size: 11px;
-		letter-spacing: 0.4px;
-		line-height: 1;
+	letter-spacing: 0.4px;
+	line-height: 1;
 }
 
 @media (min-width: 1280px) {
+	.roomContainer {
+		margin-top: 47px;
+	}
 	.styledFloor {
-		width: 261px;
+		width: 260px;
 		height: 37px;
 		background: #FFFFFF;
+		padding-bottom: 4px;
+	}
+	.styledFloor:first-child {
+		height: 39px;
 	}
 	.styledLi {
 		margin-bottom: 0;
+		padding-bottom: 8px;
 		position: relative;
 		display: flex;
 		align-items: center;
 		overflow: hidden;
 	}
-	.list-container {
-		overflow: hidden;
-	}
+
 	.list-container::before {
 		position: absolute;
 		content: '';
 		top: 0;
 		left: 0;
-		width: 261px;
-		height: calc(100vh - 118px);
+		width: 260px;
+		height: 100%;
 		background: #FFFFFF;
-	}
-	.roomContainer {
-		margin-top: 47px;
-		/* margin: 47px auto 0 auto; */
-		height: calc(100vh - 118px);
 	}
 	.styledRoom {
 		position: relative;
-		width: 261px;
+		width: 260px;
 		height: 44px;
 	}
 	.styledRoomTitle {

@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import Moment from 'moment';
 import { UserCard, Search } from '../';
 import './MiddleField.css';
+import Close from './Close';
 
 const MiddleField = (props) => {
   const { event: { dateStart, dateEnd } } = props;
@@ -17,8 +19,8 @@ const MiddleField = (props) => {
     <UserCard
       key={user.id}
       value={user.id}
-			// Вроде нужно передавать контекст, чтобы ссылалось обратно в этот класс
-			// Без этого ошибка, не видит состояние users
+      // Вроде нужно передавать контекст, чтобы ссылалось обратно в этот класс
+      // Без этого ошибка, не видит состояние users
       onDeleteUser={props.onDeleteUser}
       login={user.login}
       avatarUrl={user.avatarUrl}
@@ -43,6 +45,7 @@ const MiddleField = (props) => {
       </label>
     </div>
   ));
+  const rootB = document.getElementById('root');
   return (
     <div
       className="mid-container"
@@ -91,11 +94,13 @@ const MiddleField = (props) => {
             <button
               className="room-uncheck"
               onClick={props.handleUnCheck}
-            />
+            >
+              {rootB.clientWidth >= 1280 ? <Close type="desktop" /> : <Close type="touch" />}
+            </button>
           </div>
-        ) : (
-          checkboxes
-        )}
+				) : (
+					checkboxes
+				)}
       </div>
     </div>);
 };

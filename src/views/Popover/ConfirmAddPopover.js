@@ -1,26 +1,34 @@
 import React from 'react';
+import Moment from 'moment';
 import './ConfirmAddPopover.css';
+import emoji from '../../assets/touch/emoji2.svg';
 
-const ConfirmAddPopover = props => (
-  <div className="overlay">
-    <div className="confirm-container">
-      <div className="confirm-pic" />
-      <h2 className="confirm-title">Встреча создана!</h2>
-      <p className="confirm-desc">
-        {props.event.dateStart.format('D MMMM, HH:mm – ')}
-        {props.event.dateEnd.format('HH:mm')}
-      </p>
-      <p className="confirm-desc">
-        {props.event.room.title} · {props.event.room.floor}  этаж
-      </p>
-      <button
-        className="button-confirm"
-        onMouseUp={props.handleConfrimPopover}
-      >
-        Хорошо
-      </button>
+const ConfirmAddPopover = (props) => {
+  const {
+    event: {dateStart, dateEnd, room},
+    handleConfrimPopover
+  } = props;
+  return (
+    <div className="overlay">
+      <div className="confirm-container">
+        <img className="confirm-pic" src={emoji} alt="happy" />
+        <h1 className="confirm-title">Встреча создана!</h1>
+        <p className="confirm-desc">
+          {Moment(dateStart).format('D MMMM, HH:mm – ')}
+          {Moment(dateEnd).format('HH:mm')}
+        </p>
+        <p className="confirm-desc">
+          {room.title} · {room.floor}  этаж
+        </p>
+        <button
+          className="button-confirm"
+          onMouseUp={handleConfrimPopover}
+        >
+            Хорошо
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ConfirmAddPopover;

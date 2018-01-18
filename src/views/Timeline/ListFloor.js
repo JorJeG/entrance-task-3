@@ -3,7 +3,10 @@ import { RoomList } from '../';
 import './ListFloor.css';
 
 const ListFloor = props => (
-  <div className="roomContainer">
+  <div
+    id="listFloor"
+    className="roomContainer"
+  >
     <ul className="list-container">
       <RoomList
         onEvent={props.onEvent}
@@ -16,6 +19,5 @@ const ListFloor = props => (
     </ul>
   </div>
 );
-
 
 export default ListFloor;

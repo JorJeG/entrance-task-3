@@ -1,5 +1,6 @@
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import 'core-js/es6/array';
 
 Moment.locale('ru', {
   monthsShort: [

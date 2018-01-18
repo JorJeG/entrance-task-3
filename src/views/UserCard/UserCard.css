@@ -62,7 +62,13 @@
 	height: 16px;
 	border: none;
 	margin-right: 12px;
-	background: url(../../assets/touch/close.svg) no-repeat center;;
+	padding-right: 12px;
+}
+.remove-user path:last-child {
+	fill: #AFB4B8;
+}
+.remove-user:active path:last-child {
+	fill: #000000;
 }
 
 @media (min-width: 1280px) {
@@ -75,13 +81,18 @@
 		width: 24px;
 		height: 24px;
 	}
+	.user-avatar-search {
+		width: 24px;
+		height: 24px;
+		margin-left: 0;
+	}
 	.user-login-popover {
 		font-size: 13px;
 	}
-	.remove-user {
-		background: url(../../assets/desktop/close.svg) no-repeat center;
+	.remove-user path:last-child {
+		fill: #AFB4B8;
 	}
-	.remove-user:hover {
-		background: url(../../assets/desktop/close-black.svg) no-repeat center;
+	.remove-user:hover path:last-child {
+		fill: #000000;
 	}
 }

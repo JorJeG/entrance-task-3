@@ -2,36 +2,53 @@ import React from 'react';
 import Moment from 'moment';
 import { UserCard } from '../';
 import './EventPopover.css';
+import Edit from './Edit';
 
 const EventPopover = (props) => {
-  const { popoverEvent: { dateStart, dateEnd } } = props;
+  const {
+    popoverEvent: {
+      dateStart,
+      dateEnd,
+      room,
+      users,
+      title
+    },
+    popover,
+    onEditEvent
+  } = props;
+  const adjustTop = popover.top + 29;
   return (
     <div
       className="popover-container"
       style={{
-        top: props.popover.top + 29,
-        left: props.popover.left,
+        top: `${adjustTop}px`,
+        left: `${popover.left}px`,
       }}
     >
       <div className="popover-item popover-item__title">
-        <h2 className="popover-title">{props.popoverEvent.title}</h2>
-        <button className="edit-button" onMouseUp={props.onEditEvent} />
+        <h2 className="popover-title">{title}</h2>
+        <button
+          className="edit-button"
+          onMouseUp={onEditEvent}
+        >
+          <Edit />
+        </button>
       </div>
-      <div className="popover-item popover-item__data">
+      <p className="popover-item popover-item__data">
         <span>
           {Moment(dateStart).format('D MMMM, HH:mm – ')}
           {Moment(dateEnd).format('HH:mm · ')}
-          {props.popoverEvent.room.title}
+          {room.title}
         </span>
-      </div>
+      </p>
       <div className="popover-item">
         <UserCard
           type="popover"
-          login={props.popoverEvent.users[0].login}
-          avatarUrl={props.popoverEvent.users[0].avatarUrl}
+          login={users[0].login}
+          avatarUrl={users[0].avatarUrl}
         />
         <span className="popover-other-users">
-          и {props.popoverEvent.users.length - 1} участников
+          и {users.length - 1} участников
         </span>
       </div>
     </div>

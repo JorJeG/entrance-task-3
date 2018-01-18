@@ -1,4 +1,4 @@
-const rooms = [
+export const rooms = [
   {
     id: '1jh8hs', title: 'Ржавый Фред', capacity: 6, floor: 7,
   },
