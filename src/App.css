@@ -44,15 +44,15 @@ h3 {
 	text-align: left;
 }
 
+svg {
+	display: block;
+}
+
 button {
 	border: none;
 	background: transparent;
 	outline: none;
 	cursor: pointer;
-}
-
-svg {
-	display: block;
 }
 
 @media (min-width: 1280px) {

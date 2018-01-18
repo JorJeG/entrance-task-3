@@ -21,12 +21,18 @@
 
 .container-close {
 	margin: 0;
+	padding: 0;
 	width: 24px;
 	height: 24px;
 	background: #E9ECEF;
 	border-radius: 50%;
 }
-.container-close:hover path {
+
+.container-close svg {
+	display: inline-block;
+}
+
+.container-close:hover path:last-child {
 	fill: #000000;
 }
 
