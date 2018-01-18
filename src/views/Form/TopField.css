@@ -73,8 +73,7 @@
 }
 
 .event-title__close svg {
-	padding-right: 12px;
-
+	flex-shrink: 0;
 }
 
 .event-title-container:hover .event-title__close path:last-child {
