@@ -156,7 +156,9 @@ class App extends Component {
   // Обработчик добавления пользователя к встрече
   onAddUser(login) {
     const { event } = this.state;
-    const currentUser = this.props.feedQuery.users.find(user => (user.login).toLowerCase() === login.toLowerCase());
+    const { feedQuery } = this.props;
+    const currentUser = feedQuery.users.find(user =>
+      (user.login).toLowerCase() === login.toLowerCase());
     const addedUser = addUser(event, currentUser);
     this.setState({
       event: addedUser,
@@ -443,6 +445,7 @@ class App extends Component {
         {newEvent &&
         <Form
           title="Новая встреча"
+          eventTitle={event.title}
           rooms={rooms}
           users={users}
           newEvent={newEvent}
@@ -451,7 +454,6 @@ class App extends Component {
           filledTitle={filledTitle}
           filledUser={filledUser}
           member={member}
-          eventTitle={event.title}
           handleTitle={this.handleTitle}
           handleClearTitle={this.handleClearTitle}
           handleDate={this.handleDate}
@@ -469,6 +471,7 @@ class App extends Component {
         {editEvent &&
         <Form
           title="Редактирование встречи"
+          eventTitle={event.title}
           rooms={rooms}
           users={users}
           editEvent={editEvent}
@@ -477,7 +480,6 @@ class App extends Component {
           filledTitle={filledTitle}
           filledUser={filledUser}
           member={member}
-          eventTitle={event.title}
           handleTitle={this.handleTitle}
           handleClearTitle={this.handleClearTitle}
           handleDate={this.handleDate}

@@ -1,9 +1,9 @@
-const path = require('path');
+// const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const pagesRoutes = require('./pages/routes');
+// const pagesRoutes = require('./pages/routes');
 const graphqlRoutes = require('./graphql/routes');
 
 const app = express();
@@ -24,4 +24,4 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // eslint-disable-next-line no-console
-app.listen(app.get('port'), () => console.log('Express app listening on localhost:3000'));
+app.listen(app.get('port'), () => console.log(`Express app listening on localhost:${app.get('port')}`));

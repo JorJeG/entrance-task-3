@@ -14,11 +14,6 @@ input UserInput {
     avatarUrl: String!
 }
 
-type UserRoom {
-    id: ID!
-    title: String!
-}
-
 type Room {
     id: ID!
     title: String!

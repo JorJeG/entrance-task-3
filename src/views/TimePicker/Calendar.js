@@ -9,9 +9,9 @@ class Calendar extends Component {
   }
   render() {
     const {
-    calendar,
-    selectedDay,
-  } = this.props;
+      calendar,
+      selectedDay,
+    } = this.props;
     return (
       <div className={calendar ? 'calendar' : 'disabled'}>
         {months.map(month => (

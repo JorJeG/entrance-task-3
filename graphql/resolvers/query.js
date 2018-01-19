@@ -18,6 +18,7 @@ module.exports = {
   },
   rooms(root, args, context) {
     // offset не давал выводить первую комнату =/
-    return models.Room.findAll({}, context);
+    // добавил сортировку по убыванию
+    return models.Room.findAll({ order: [['floor', 'DESC']] }, context);
   },
 };
