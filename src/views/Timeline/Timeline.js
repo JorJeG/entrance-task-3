@@ -45,7 +45,7 @@ class Timeline extends Component {
               </div>
               <div className="timeline-line" style={{ height: `${this.state.height}px` }} />
             </div>
-						))}
+          ))}
           {this.props.offset > 419 && <div
             hidden={!this.props.today}
             className="timeMobile hiddenDesktop"
@@ -60,6 +60,8 @@ class Timeline extends Component {
           />}
         </div>
         <ListFloor
+          confirmDelete={this.props.confirmDelete}
+          newEvent={this.props.newEvent}
           height={this.state.height}
           onEvent={this.props.onEvent}
           popover={this.props.popover}
@@ -74,7 +76,7 @@ class Timeline extends Component {
         <ul className="list-container-fix">
           <RoomList rooms={this.props.rooms} only />
         </ul>
-					}
+      }
       </div>
     );
   }

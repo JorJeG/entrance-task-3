@@ -9,6 +9,7 @@
 	list-style: none;
 	padding: 0;
 	background: #F7F8F9;
+	overflow: hidden;
 }
 
 .styledLi {

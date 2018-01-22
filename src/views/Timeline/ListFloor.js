@@ -9,6 +9,8 @@ const ListFloor = props => (
   >
     <ul className="list-container">
       <RoomList
+        confirmDelete={props.confirmDelete}
+        newEvent={props.newEvent}
         onEvent={props.onEvent}
         handlePopover={props.handlePopover}
         selectedDay={props.selectedDay}

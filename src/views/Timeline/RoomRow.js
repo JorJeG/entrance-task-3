@@ -44,7 +44,7 @@ class RoomRow extends Component {
     this.props.createEvent(e.target.value, e.target.dataset.room);
   }
   handlerPopover(e) {
-    this.props.handlePopover(e);
+    this.props.handlePopover(e, this.props.events);
   }
   render() {
     const { room, events } = this.props;

@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
 import Moment from 'moment';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
   Timeline,
   Form,
+  EditForm,
   EventPopover,
   ConfirmAddPopover,
   ConfirmDeletePopover,
 } from './views';
 import {
-  removeUser,
-  addUser,
-  addRoom,
-  removeRoom,
-  renameEvent,
   mockEvent,
   newEventWithTime,
-  changeEventDateStart,
-  changeEventDateEnd,
-  changeEventDay,
   addNewEvent,
   deleteEvent,
   saveEvent,
@@ -35,13 +28,9 @@ class App extends Component {
       calendar: false,
       selectedDay: Moment(),
       hidden: false,
-      member: '',
       newEvent: false,
       editEvent: false,
-      event: {},
-      checked: false,
-      filledTitle: false,
-      filledUser: false,
+      // event: {},
       today: true,
       now: Moment().format('HH:mm'),
       offset: Moment.duration(Moment().format('HH:mm')).asMinutes(),
@@ -55,18 +44,8 @@ class App extends Component {
     this.nextDay = this.nextDay.bind(this);
     this.previusDay = this.previusDay.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
-    this.handleTitle = this.handleTitle.bind(this);
-    this.handleClearTitle = this.handleClearTitle.bind(this);
-    this.handleHourStart = this.handleHourStart.bind(this);
-    this.handleHourEnd = this.handleHourEnd.bind(this);
-    this.handleDate = this.handleDate.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.onDeleteUser = this.onDeleteUser.bind(this);
-    this.handleCheck = this.handleCheck.bind(this);
-    this.handleUnCheck = this.handleUnCheck.bind(this);
     this.createEvent = this.createEvent.bind(this);
     this.cancelButton = this.cancelButton.bind(this);
-    this.onAddNewEvent = this.onAddNewEvent.bind(this);
     this.handlePopover = this.handlePopover.bind(this);
     this.handleConfrimPopover = this.handleConfrimPopover.bind(this);
     this.handleDeletePopover = this.handleDeletePopover.bind(this);
@@ -74,9 +53,10 @@ class App extends Component {
     this.onSaveEvent = this.onSaveEvent.bind(this);
     this.onDeleteEvent = this.onDeleteEvent.bind(this);
     this.onDeleteCancel = this.onDeleteCancel.bind(this);
+    this.onConfirmAdd = this.onConfirmAdd.bind(this);
   }
   componentDidMount() {
-    // this.container.addEventListener('scroll', this.handleScroll);
+    this.container.addEventListener('scroll', this.handleScroll);
     this.timerID = setInterval(
       () => this.tick(),
       60000,
@@ -89,7 +69,7 @@ class App extends Component {
     return false;
   }
   componentWillUnmount() {
-    // this.container.removeEventListener('scroll', this.handleScroll);
+    this.container.removeEventListener('scroll', this.handleScroll);
     clearInterval(this.timerID);
   }
   // Обработчик включения редактирования
@@ -97,22 +77,6 @@ class App extends Component {
     this.setState({
       editEvent: true,
       onEvent: false,
-      checked: true,
-      filledUser: true,
-      filledTitle: true,
-    });
-  }
-  // Обработчик для добавления новой встречи
-  onAddNewEvent() {
-    const { events, event } = this.state;
-    const addedEvent = addNewEvent(events, event);
-    this.setState({
-      events: addedEvent,
-      newEvent: false,
-      confirmAdd: true,
-      filledUser: false,
-      checked: false,
-      filledTitle: false,
     });
   }
   // Обработчик для сохранения изменений во встречи
@@ -122,48 +86,24 @@ class App extends Component {
     this.setState({
       events: savedEvent,
       editEvent: false,
-      filledUser: false,
-      filledTitle: false,
-      checked: false,
     });
   }
   // Обработчик для удаления встречи
   onDeleteEvent() {
-    const { events, event } = this.state;
-    const removedEvents = deleteEvent(events, event.id);
-    this.setState({
-      events: removedEvents,
-      confirmDelete: false,
-      checked: false,
+    const { event: { id } } = this.state;
+    this.props.removeEvent({
+      variables: {
+        id,
+      },
+    }).then((data) => {
+      console.log(data);
+      this.setState({
+        // events: removedEvents,
+        confirmDelete: false,
+      });
+    }).catch((error) => {
+      console.log('there was an error sending the query', error);
     });
-  }
-  // Обработчик удаления пользователя из встречи
-  onDeleteUser(id) {
-    const { event } = this.state;
-    const updateUsers = removeUser(event, id);
-    if (updateUsers.users.length > 0) {
-      this.setState({
-        event: updateUsers,
-        filledUser: true,
-      });
-    } else {
-      this.setState({
-        event: updateUsers,
-        filledUser: false,
-      });
-    }
-  }
-  // Обработчик добавления пользователя к встрече
-  onAddUser(login) {
-    const { event } = this.state;
-    const { feedQuery } = this.props;
-    const currentUser = feedQuery.users.find(user =>
-      (user.login).toLowerCase() === login.toLowerCase());
-    const addedUser = addUser(event, currentUser);
-    this.setState({
-      event: addedUser,
-      filledUser: true,
-    }, () => this.setState({ member: '' }));
   }
   // Обработчик для отмены удаления встречи
   onDeleteCancel() {
@@ -235,101 +175,21 @@ class App extends Component {
       });
     }
   }
-  // Обработчик ввода названия встречи
-  handleTitle(e) {
-    const { event } = this.state;
-    const renamedTitleEvent = renameEvent(event, e.target.value);
-    if (e.target.value.length > 0) {
-      this.setState({
-        event: renamedTitleEvent,
-        filledTitle: true,
-      });
-    } else {
-      this.setState({
-        event: renamedTitleEvent,
-        filledTitle: false,
-      });
-    }
-  }
-  // Обработчик сброса названия события
-  handleClearTitle() {
-    const { event } = this.state;
-    const clearedTitleEvent = renameEvent(event, '');
-    this.setState({
-      event: clearedTitleEvent,
-      filledTitle: false,
-    });
-  }
-  // Обработчик на изменение времени начала встречи
-  handleHourStart(time) {
-    const { event } = this.state;
-    const changedEventDateStart = changeEventDateStart(event, Moment(time));
-    this.setState({
-      event: changedEventDateStart,
-    });
-  }
-  // Обработчик на изменение времени окончания встречи
-  handleHourEnd(time) {
-    const { event } = this.state;
-    const a = event.dateStart;
-    if (Moment(a).diff(Moment(time)) > 0) {
-      return;
-    }
-    const changedEventDateEnd = changeEventDateEnd(event, Moment(time));
-    this.setState({
-      event: changedEventDateEnd,
-    });
-  }
-  // Обработчик на изменение даты
-  handleDate(time) {
-    const { event } = this.state;
-    const changedEventDay = changeEventDay(event, Moment(time).startOf('day'));
-    this.setState({
-      event: changedEventDay,
-    });
-  }
-  // Обработчик на поиск пользователя
-  handleChange(event) {
-    this.setState({
-      member: event,
-    });
-  }
-  // Обработчик на выбор комнаты
-  handleCheck(e) {
-    const { event } = this.state;
-    const curentRoom = this.props.feedQuery.rooms.find(room => room.id === e.target.value);
-    const addedRoom = addRoom(event, curentRoom);
-    this.setState({
-      event: addedRoom,
-      checked: true,
-    });
-  }
-  // Обработчик на снятие выбора комнаты
-  handleUnCheck() {
-    const { event } = this.state;
-    const removedRoom = removeRoom(event);
-    this.setState({
-      event: removedRoom,
-      checked: false,
-    });
-  }
   // Обработчик переключения на создание встречи
   createEvent(e, id) {
     if (typeof e === 'string') {
-      const currentRoom = this.props.feedQuery.rooms.find(room => room.id === id);
-      const eventWithTime = newEventWithTime(this.state.event, e, currentRoom);
-
+      // const currentRoom = this.props.feedQuery.rooms.find(room => room.id === id);
+      // const eventWithTime = newEventWithTime(this.state.event, e, currentRoom);
       this.setState({
         newEvent: true,
-        event: eventWithTime,
+        // event: eventWithTime,
         onEvent: false,
-        checked: true,
       });
     } else {
-      const emptyEvent = mockEvent(this.state.event);
+      // const emptyEvent = mockEvent(this.state.event);
       this.setState({
         newEvent: true,
-        event: emptyEvent,
+        // event: emptyEvent,
         onEvent: false,
       });
     }
@@ -339,15 +199,12 @@ class App extends Component {
     this.setState({
       newEvent: false,
       editEvent: false,
-      checked: false,
-      filledUser: false,
-      filledTitle: false,
     });
   }
   // Обработчик поповера для встреч
-  handlePopover(e) {
+  handlePopover(e, events) {
     const { popover } = this.state;
-    const { feedQuery: { events } } = this.props;
+    // const { feedQuery: { events } } = this.props;
     const selectedCell = e.target;
     const newPlace = updateBox(popover, selectedCell.getBoundingClientRect());
     const clickedEvent = events.find(event => Number(event.id) === Number(selectedCell.dataset.id));
@@ -359,13 +216,21 @@ class App extends Component {
       event: clickedEvent,
     }));
   }
-  // Обработчик включения поздравления о создании встречи
+  // Обработчик выключения поздравления о создании встречи
   handleConfrimPopover() {
-    const { event } = this.state;
-    const emptyedEvent = mockEvent(event);
+    // const { event } = this.state;
+    // const emptyedEvent = mockEvent(event);
     this.setState({
-      event: emptyedEvent,
+      // event: emptyedEvent,
       confirmAdd: false,
+    });
+  }
+  onConfirmAdd(data) {
+    // console.log(data);
+    this.setState({
+      newEvent: false,
+      event: data.createEvent,
+      confirmAdd: true,
     });
   }
   // Обработчик включения подтверждения удаления
@@ -375,6 +240,7 @@ class App extends Component {
       editEvent: false,
     });
   }
+  
   render() {
     const {
       popover,
@@ -391,19 +257,7 @@ class App extends Component {
       left,
       now,
       today,
-      checked,
-      filledUser,
-      filledTitle,
-      member
     } = this.state;
-    const {
-      feedQuery: {
-        loading, rooms, users, events,
-      },
-    } = this.props;
-    if (loading) {
-      return <p>loading...</p>;
-    }
     return (
       <div
         className="App"
@@ -421,6 +275,7 @@ class App extends Component {
         <Timeline
           onEvent={onEvent}
           popover={popover}
+          confirmDelete={confirmDelete}
           newEvent={newEvent}
           editEvent={editEvent}
           selectedTime={selectedDay}
@@ -436,8 +291,6 @@ class App extends Component {
           previusDay={this.previusDay}
           nextDay={this.nextDay}
           selectDay={this.selectDay}
-          events={events}
-          rooms={rooms}
           createEvent={this.createEvent}
           scrollingRef={el => this.container = el}
           scrolling={this.scrolling}
@@ -445,54 +298,20 @@ class App extends Component {
         {newEvent &&
         <Form
           title="Новая встреча"
-          eventTitle={event.title}
-          rooms={rooms}
-          users={users}
-          newEvent={newEvent}
-          event={event}
-          checked={checked}
-          filledTitle={filledTitle}
-          filledUser={filledUser}
-          member={member}
-          handleTitle={this.handleTitle}
-          handleClearTitle={this.handleClearTitle}
-          handleDate={this.handleDate}
-          handleHourStart={this.handleHourStart}
-          handleHourEnd={this.handleHourEnd}
-          handleCheck={this.handleCheck}
-          handleUnCheck={this.handleUnCheck}
-          handleChange={this.handleChange}
+          onConfirmAdd={this.onConfirmAdd}
           handleCancel={this.cancelButton}
-          handleDeletePopoverr={this.handleDeletePopover}
-          onDeleteUser={this.onDeleteUser}
+          handleDeletePopover={this.handleDeletePopover}
           onAddNewEvent={this.onAddNewEvent}
-          onAddUser={e => this.onAddUser(e)}
         />}
         {editEvent &&
-        <Form
+        <EditForm
           title="Редактирование встречи"
-          eventTitle={event.title}
-          rooms={rooms}
-          users={users}
-          editEvent={editEvent}
           event={event}
-          checked={checked}
-          filledTitle={filledTitle}
-          filledUser={filledUser}
-          member={member}
-          handleTitle={this.handleTitle}
-          handleClearTitle={this.handleClearTitle}
-          handleDate={this.handleDate}
-          handleHourStart={this.handleHourStart}
-          handleHourEnd={this.handleHourEnd}
-          handleCheck={this.handleCheck}
-          handleUnCheck={this.handleUnCheck}
-          handleChange={this.handleChange}
+          eventId={event.id}
+          editEvent={editEvent}
           handleCancel={this.cancelButton}
           handleDeletePopover={this.handleDeletePopover}
           onSaveEvent={this.onSaveEvent}
-          onDeleteUser={this.onDeleteUser}
-          onAddUser={e => this.onAddUser(e)}
         />}
         {onEvent &&
         <EventPopover
@@ -517,38 +336,12 @@ class App extends Component {
   }
 }
 
-const FEED_QUERY = gql`
-  query FeedQeury {
-    users {
-      id
-      login
-      avatarUrl
-    }
-    rooms {
-      id
+const REMOVE_EVENT = gql`
+  mutation removeEvent($id: ID!) {
+    removeEvent(id: $id) {
       title
-      capacity
-      floor
-    }
-    events {
-      id
-      title
-      dateStart
-      dateEnd
-      users {
-        id
-        login
-        homeFloor
-        avatarUrl
-      }
-      room {
-        id
-        title
-        capacity
-        floor
-      }
     }
   }
 `;
 
-export default graphql(FEED_QUERY, { name: 'feedQuery' })(App);
+export default graphql(REMOVE_EVENT, { name: 'removeEvent' })(App);

@@ -21,15 +21,16 @@ class Form extends Component {
     super(props);
     this.state = {
       member: '',
-      filledTitle: false,
-      filledUser: false,
-      checked: false,
+      filledTitle: true,
+      filledUser: true,
+      checked: true,
       event: {
-        title: '',
-        dateStart: nearestFutureMinutes(15, Moment()),
-        dateEnd: nearestFutureMinutes(15, Moment().add(1, 'hours')),
-        users: [],
-        room: {},
+        id: this.props.event.id,
+        title: this.props.event.title,
+        dateStart: this.props.event.dateStart,
+        dateEnd: this.props.event.dateEnd,
+        users: this.props.event.users,
+        room: this.props.event.room,
       },
     };
     this.onDeleteUser = this.onDeleteUser.bind(this);
@@ -44,6 +45,21 @@ class Form extends Component {
     this.handleUnCheck = this.handleUnCheck.bind(this);
     this.onAddNewEvent = this.onAddNewEvent.bind(this);
   }
+  // componentDidMount() {
+  //   this.props.selectedEvent({
+  //     variables: {
+  //       id: this.props.event.id,
+  //     },
+  //   });
+  // }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.selectedEvent) {
+  //     const currentEvent = Object.assign({}, this.state.event, nextProps.selectedEvent.event)
+  //     this.setState({
+  //       event: currentEvent,
+  //     });
+  //   }
+  // }
   // Обработчик удаления пользователя из встречи
   onDeleteUser(id) {
     const { event } = this.state;
@@ -62,6 +78,18 @@ class Form extends Component {
   }
   // Обработчик добавления пользователя к встрече
   onAddUser(login) {
+    // const { event: { id } } = this.state;
+    // const selectedUser = this.props.feedQuery.users.find(user => user.login === login);
+    // this.props.addUserToEvent({
+    //   variables: {
+    //     id,
+    //     userId: selectedUser.id,
+    //   },
+    // }).then(() => {
+    //   this.props.selectedEvent.refetch();
+    // }).catch((error) => {
+    //   console.log('there was an error sending the query', error);
+    // });
     const { event } = this.state;
     const { feedQuery } = this.props;
     const currentUser = feedQuery.users.find(user =>
@@ -97,6 +125,7 @@ class Form extends Component {
       },
     }).then(({ data }) => {
       this.props.onConfirmAdd(data);
+      console.log(data);
     }).catch((error) => {
       console.log('there was an error sending the query', error);
     });
@@ -234,6 +263,13 @@ class Form extends Component {
           onDeleteUser={this.onDeleteUser}
           editEvent={editEvent}
         />
+        {editEvent &&
+        <button
+          onMouseUp={handleDeletePopover}
+          className="button-delete__mobile hiddenDesktop"
+        >
+          Удалить встречу
+        </button>}
         <Footer
           checked={checked}
           filledTitle={filledTitle}
@@ -286,7 +322,46 @@ const CREATE_EVENT = gql`
   }
 `;
 
+const UPDATE_EVENT = gql`
+  mutation updateEvent($id: ID!, $input: EventInput!) {
+    updateEvent(id: $id, input: $input) {
+      id
+    }
+  }
+`;
+
+const ADD_USER = gql`
+  mutation addUserToEvent($id: ID!, $userId: ID!) {
+    addUserToEvent(id: $id, userId: $userId) {
+      id
+    }
+  }
+`;
+
+const QUERY_EVENT = gql`
+  query selectedEvent($id: ID!) {
+    event(id: $id) {
+      id
+      title
+      dateStart
+      dateEnd
+      users {
+        id
+        login
+        avatarUrl
+      }
+      room {
+        id
+        title
+        floor
+      }
+    }
+  }
+`;
+
 export default compose(
+  graphql(QUERY_EVENT, { name: 'selectedEvent', options: ({ eventId }) => ({ variables: { id: eventId } }) }),
+  graphql(ADD_USER, { name: 'addUserToEvent' }),
   graphql(CREATE_EVENT, { name: 'newEvent' }),
   graphql(FEED_QUERY, { name: 'feedQuery' }),
 )(Form);
