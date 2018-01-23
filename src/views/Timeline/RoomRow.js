@@ -1,4 +1,6 @@
+/* eslint-disable react/jsx-closing-tag-location */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   dayInMinutes,
   isSelectedTime,
@@ -19,7 +21,6 @@ class RoomRow extends Component {
     this.setState({
       dayInM,
       selectedDay: this.props.selectedDay,
-      events: this.props.event,
     });
   }
   componentWillReceiveProps(nextProps) {
@@ -28,10 +29,9 @@ class RoomRow extends Component {
       dayInM,
       selectedDay: nextProps.selectedDay,
       eventNumber: nextProps.events.length,
-      events: nextProps.events,
     });
   }
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (this.state.selectedDay !== nextProps.selectedDay) {
       return true;
     }
@@ -113,5 +113,17 @@ class RoomRow extends Component {
     );
   }
 }
+
+RoomRow.propTypes = {
+  room: PropTypes.shape({
+    capacity: PropTypes.number,
+    title: PropTypes.string,
+    id: PropTypes.string,
+  }).isRequired,
+  events: PropTypes.arrayOf(PropTypes.object).isRequired,
+  selectedDay: PropTypes.object.isRequired,
+  handlePopover: PropTypes.func.isRequired,
+  createEvent: PropTypes.func.isRequired,
+};
 
 export default RoomRow;

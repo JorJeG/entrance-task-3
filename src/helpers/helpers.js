@@ -106,28 +106,36 @@ export const mockEvent = event => Object.assign({}, event, {
 
 export const newEventWithTime = (event, dateStart, room) => Object.assign({}, event, {
   title: '',
-  dateStart: Moment(dateStart),
-  dateEnd: Moment(dateStart).add(1, 'hours'),
+  dateStart: Moment(dateStart).format('YYYY-MM-DDTHH:mm:ss.SSS'),
+  dateEnd: Moment(dateStart).add(1, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS'),
   users: [],
   room,
 });
 
 export const changeEventDateStart = (event, dateStart) => Object.assign({}, event, {
-  dateStart,
+  dateStart: dateStart.format('YYYY-MM-DDTHH:mm:ss.SSS'),
 });
 
 export const changeEventDateEnd = (event, dateEnd) => Object.assign({}, event, {
-  dateEnd,
+  dateEnd: dateEnd.format('YYYY-MM-DDTHH:mm:ss.SSS'),
 });
 
 export const changeEventDay = (event, date) => {
-  const dateHourStart = event.dateStart.format('HH');
-  const dateMinutesStart = event.dateStart.format('mm');
-  const dateHourEnd = event.dateEnd.format('HH');
-  const dateMinutesEnd = event.dateEnd.format('mm');
+  const dateHourStart = Moment(event.dateStart).format('HH');
+  const dateMinutesStart = Moment(event.dateStart).format('mm');
+  const dateHourEnd = Moment(event.dateEnd).format('HH');
+  const dateMinutesEnd = Moment(event.dateEnd).format('mm');
   return Object.assign({}, event, {
-    dateStart: date.clone().hours(dateHourStart).minutes(dateMinutesStart),
-    dateEnd: date.clone().hours(dateHourEnd).minutes(dateMinutesEnd),
+    dateStart: date
+      .clone()
+      .hours(dateHourStart)
+      .minutes(dateMinutesStart)
+      .format('YYYY-MM-DDTHH:mm:ss.SSS'),
+    dateEnd: date
+      .clone()
+      .hours(dateHourEnd)
+      .minutes(dateMinutesEnd)
+      .format('YYYY-MM-DDTHH:mm:ss.SSS'),
   });
 };
 
@@ -155,20 +163,22 @@ export const updateBox = (oldBox, newBox) => {
   let left = null;
   const rootB = document.getElementById('root').clientWidth;
   const listFloorB = document.getElementById('listFloor').clientWidth;
+  // eslint-disable-next-line no-undef
   const allWidth = window.screen.availWidth;
   const diff = allWidth - listFloorB;
   if (rootB > 1280) {
     if (newBox.left - diff > 780) {
-      left = newBox.left + newBox.width / 2 - 360;
+      left = (newBox.left + (newBox.width / 2)) - 360;
     } else {
-      left = newBox.left + newBox.width / 2 - 180;
+      left = (newBox.left + (newBox.width / 2)) - 180;
     }
   } else if (rootB > 360) {
     // Пока так чтобы не вылезало
-    left = newBox.left + newBox.width / 2 - 360;
+    left = (newBox.left + (newBox.width / 2)) - 360;
   } else {
     left = 0;
   }
+  // eslint-disable-next-line no-undef
   const top = window.scrollY + newBox.top;
   return Object.assign({}, oldBox, {
     top,

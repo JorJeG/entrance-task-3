@@ -1,5 +1,6 @@
 import React from 'react';
 import Moment from 'moment';
+import PropTypes from 'prop-types';
 import { UserCard } from '../';
 import './EventPopover.css';
 import Edit from './Edit';
@@ -53,6 +54,18 @@ const EventPopover = (props) => {
       </div>
     </div>
   );
+};
+
+EventPopover.propTypes = {
+  popover: PropTypes.object.isRequired,
+  onEditEvent: PropTypes.func.isRequired,
+  popoverEvent: PropTypes.shape({
+    dateStart: PropTypes.string,
+    dateEnd: PropTypes.string,
+    room: PropTypes.object,
+    users: PropTypes.arrayOf(PropTypes.object),
+    title: PropTypes.string,
+  }).isRequired,
 };
 
 export default EventPopover;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { FloorRow, RoomRow, OnlyRoom } from '../';
@@ -94,5 +95,31 @@ const FEED_QUERY = gql`
     }
   }
 `;
+
+RoomList.propTypes = {
+  onEvent: PropTypes.bool,
+  newEvent: PropTypes.bool,
+  withData: PropTypes.bool,
+  confirmDelete: PropTypes.bool,
+  editEvent: PropTypes.bool,
+  selectedDay: PropTypes.object,
+  createEvent: PropTypes.func,
+  handlePopover: PropTypes.func,
+  only: PropTypes.bool,
+  feedQuery: PropTypes.object,
+};
+
+RoomList.defaultProps = {
+  only: false,
+  onEvent: false,
+  newEvent: false,
+  withData: false,
+  confirmDelete: false,
+  editEvent: false,
+  createEvent: null,
+  handlePopover: null,
+  selectedDay: null,
+  feedQuery: null,
+};
 
 export default graphql(FEED_QUERY, { name: 'feedQuery' })(RoomList);

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Select } from 'antd';
 import { UserCard } from '../';
 import './Search.css';
@@ -10,7 +11,7 @@ const Search = (props) => {
     users,
     member,
     onAddUser,
-    handleChange
+    handleChange,
   } = props;
   const options = users.map(d => (
     <Option key={d.login} className="option-container">
@@ -37,6 +38,13 @@ const Search = (props) => {
       {options}
     </Select>
   );
+};
+
+Search.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  member: PropTypes.string.isRequired,
+  onAddUser: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default Search;

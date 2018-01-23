@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Moment from 'moment';
 import './ConfirmAddPopover.css';
 import emoji from '../../assets/touch/emoji2.svg';
@@ -33,6 +34,15 @@ const ConfirmAddPopover = (props) => {
       </div>
     </div>
   );
+};
+
+ConfirmAddPopover.propTypes = {
+  event: PropTypes.shape({
+    dateStart: PropTypes.object,
+    dateEnd: PropTypes.object,
+    room: PropTypes.object,
+  }).isRequired,
+  handleConfrimPopover: PropTypes.func.isRequired,
 };
 
 export default ConfirmAddPopover;

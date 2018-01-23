@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DatePicker, TimePicker } from 'antd';
 import moment from 'moment';
 import Close from './Close';
@@ -92,6 +93,29 @@ const TopField = (props) => {
       </div>
     </div>
   );
+};
+
+TopField.propTypes = {
+  title: PropTypes.string.isRequired,
+  event: PropTypes.shape({
+    id: PropTypes.string,
+    dateStart: PropTypes.string,
+    dateEnd: PropTypes.string,
+    title: PropTypes.string,
+    users: PropTypes.arrayOf(PropTypes.object),
+    room: PropTypes.object,
+  }).isRequired,
+  eventTitle: PropTypes.string.isRequired,
+  handleDate: PropTypes.func.isRequired,
+  handleHourStart: PropTypes.func.isRequired,
+  handleHourEnd: PropTypes.func.isRequired,
+  handleTitle: PropTypes.func.isRequired,
+  handleClearTitle: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func,
+};
+
+TopField.defaultProps = {
+  handleCancel: null,
 };
 
 export default TopField;

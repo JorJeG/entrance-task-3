@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const FloorRow = (props) => {
   const {
@@ -17,6 +18,15 @@ const FloorRow = (props) => {
       <span className="styledFloor-small">{floor}</span> этаж
     </li>
   );
+};
+
+FloorRow.propTypes = {
+  floor: PropTypes.number.isRequired,
+  only: PropTypes.bool,
+};
+
+FloorRow.defaultProps = {
+  only: false,
 };
 
 export default FloorRow;

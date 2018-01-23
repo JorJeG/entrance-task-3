@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Arrow from './Arrow';
 
 const Label = (props) => {
@@ -7,7 +8,7 @@ const Label = (props) => {
     calendar,
     selectedTime,
     selectCalendar,
-    nextDay
+    nextDay,
   } = props;
   return (
     <div className="PickerLabel">
@@ -33,6 +34,14 @@ const Label = (props) => {
       </button>
     </div>
   );
+};
+
+Label.propTypes = {
+  calendar: PropTypes.bool.isRequired,
+  selectCalendar: PropTypes.func.isRequired,
+  previusDay: PropTypes.func.isRequired,
+  nextDay: PropTypes.func.isRequired,
+  selectedTime: PropTypes.object.isRequired,
 };
 
 export default Label;

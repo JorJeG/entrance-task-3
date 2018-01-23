@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import Moment from 'moment';
@@ -283,6 +284,24 @@ const CREATE_EVENT = gql`
     }
   }
 `;
+
+Form.propTypes = {
+  title: PropTypes.string.isRequired,
+  feedQuery: PropTypes.object,
+  newEvent: PropTypes.object,
+  editEvent: PropTypes.bool,
+  onConfirmAdd: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired,
+  onSaveEvent: PropTypes.func,
+  handleDeletePopover: PropTypes.func.isRequired,
+};
+
+Form.defaultProps = {
+  editEvent: false,
+  onSaveEvent: null,
+  feedQuery: null,
+  newEvent: null,
+};
 
 export default compose(
   graphql(CREATE_EVENT, { name: 'newEvent' }),

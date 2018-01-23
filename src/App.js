@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Moment from 'moment';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -51,7 +52,7 @@ class App extends Component {
     this.onSaveEvent = this.onSaveEvent.bind(this);
     this.onDeleteEvent = this.onDeleteEvent.bind(this);
     this.onDeleteCancel = this.onDeleteCancel.bind(this);
-    this.onConfirmAdd = this.onConfirmAdd.bind(this);
+    this.handleConfirmAdd = this.handleConfirmAdd.bind(this);
   }
   componentDidMount() {
     this.container.addEventListener('scroll', this.handleScroll);
@@ -108,7 +109,7 @@ class App extends Component {
       variables: {
         id,
       },
-    }).then((data) => {
+    }).then(() => {
       this.setState({
         confirmDelete: false,
       });
@@ -189,7 +190,6 @@ class App extends Component {
   // Обработчик переключения на создание встречи
   createEvent(e, selectedRoom) {
     if (typeof e === 'string') {
-      // const currentRoom = this.props.feedQuery.rooms.find(room => room.id === id);
       const eventWithTime = newEventWithTime(this.state.event, e, selectedRoom);
       this.setState({
         withData: true,
@@ -231,15 +231,13 @@ class App extends Component {
   }
   // Обработчик выключения поздравления о создании встречи
   handleConfrimPopover() {
-    // const { event } = this.state;
-    // const emptyedEvent = mockEvent(event);
     this.setState({
-      // event: emptyedEvent,
+      event: {},
       confirmAdd: false,
     });
   }
-  onConfirmAdd(data) {
-    // console.log(data);
+  // Обработчик появления поздравления о создании встречи
+  handleConfirmAdd(data) {
     this.setState({
       newEvent: false,
       withData: false,
@@ -307,13 +305,14 @@ class App extends Component {
           nextDay={this.nextDay}
           selectDay={this.selectDay}
           createEvent={this.createEvent}
+          // eslint-disable-next-line no-return-assign
           scrollingRef={el => this.container = el}
           scrolling={this.scrolling}
         />
         {newEvent &&
         <Form
           title="Новая встреча"
-          onConfirmAdd={this.onConfirmAdd}
+          onConfirmAdd={this.handleConfirmAdd}
           handleCancel={this.cancelButton}
           handleDeletePopover={this.handleDeletePopover}
           onAddNewEvent={this.onAddNewEvent}
@@ -322,7 +321,7 @@ class App extends Component {
         <WithDataForm
           title="Новая встреча"
           event={event}
-          onConfirmAdd={this.onConfirmAdd}
+          onConfirmAdd={this.handleConfirmAdd}
           handleCancel={this.cancelButton}
           handleDeletePopover={this.handleDeletePopover}
           onAddNewEvent={this.onAddNewEvent}
@@ -375,6 +374,16 @@ const REMOVE_EVENT = gql`
     }
   }
 `;
+
+App.propTypes = {
+  removeEvent: PropTypes.func,
+  updateEvent: PropTypes.func,
+};
+
+App.defaultProps = {
+  removeEvent: null,
+  updateEvent: null,
+};
 
 export default compose(
   graphql(REMOVE_EVENT, { name: 'removeEvent' }),

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const OnlyRoom = props => (
   <li className="styledLi-fix">
@@ -8,5 +9,9 @@ const OnlyRoom = props => (
     </div>
   </li>
 );
+
+OnlyRoom.propTypes = {
+  room: PropTypes.object.isRequired,
+};
 
 export default OnlyRoom;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './calendar.css';
 import months, { isSame, isSelected } from '../../helpers/date';
 import { generateId } from '../../helpers/helpers';
@@ -42,13 +43,21 @@ class Calendar extends Component {
                   </React.Fragment>
                 );
               }
+              let typeOfDay = null;
+              if (isSelected(day, selectedDay)) {
+                typeOfDay = 'selected';
+              } else if (isSame(day)) {
+                typeOfDay = 'currentDay';
+              } else {
+                typeOfDay = 'day';
+              }
               // Выводит дни
               return (
                 <button
                   onClick={e => this.handleSelect(e)}
                   value={`${day.format()}`}
                   key={`${day.format()}`}
-                  className={isSelected(day, selectedDay) ? 'selected' : isSame(day) ? 'currentDay' : 'day'}
+                  className={typeOfDay}
                 >
                   {day.format('DD')}
                 </button>);
@@ -59,5 +68,11 @@ class Calendar extends Component {
     );
   }
 }
+
+Calendar.propTypes = {
+  selectedDay: PropTypes.object.isRequired,
+  calendar: PropTypes.bool.isRequired,
+  selectDay: PropTypes.func.isRequired,
+};
 
 export default Calendar;

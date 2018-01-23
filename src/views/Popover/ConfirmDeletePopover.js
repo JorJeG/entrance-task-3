@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './ConfirmDeletePopover.css';
 import emoji from '../../assets/touch/emoji1.svg';
 
@@ -7,7 +8,7 @@ const ConfirmDeletePopover = props => (
     <div className="delete-container">
       <img className="delete-confirm" src={emoji} alt="condolence" />
       <h2 className="delete-title">
-					Встреча будет удалена безвозвратно
+        Встреча будет удалена безвозвратно
       </h2>
       <div>
         <button
@@ -26,5 +27,10 @@ const ConfirmDeletePopover = props => (
     </div>
   </div>
 );
+
+ConfirmDeletePopover.propTypes = {
+  onDeleteEvent: PropTypes.func.isRequired,
+  onDeleteCancel: PropTypes.func.isRequired,
+};
 
 export default ConfirmDeletePopover;

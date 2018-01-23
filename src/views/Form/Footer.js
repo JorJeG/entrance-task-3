@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Footer.css';
 
 const Footer = (props) => {
@@ -11,7 +12,7 @@ const Footer = (props) => {
     filledUser,
     onAddNewEvent,
     onSaveEvent,
-    editEvent
+    editEvent,
   } = props;
   return (
     <div className="footer-container">
@@ -49,6 +50,25 @@ const Footer = (props) => {
       </div>
     </div>
   );
+};
+
+Footer.propTypes = {
+  event: PropTypes.object,
+  checked: PropTypes.bool.isRequired,
+  filledTitle: PropTypes.bool.isRequired,
+  filledUser: PropTypes.bool.isRequired,
+  editEvent: PropTypes.bool,
+  handleCancel: PropTypes.func.isRequired,
+  onAddNewEvent: PropTypes.func,
+  onSaveEvent: PropTypes.func,
+  handleDeletePopover: PropTypes.func.isRequired,
+};
+
+Footer.defaultProps = {
+  event: null,
+  editEvent: false,
+  onSaveEvent: null,
+  onAddNewEvent: null,
 };
 
 export default Footer;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import Moment from 'moment';
@@ -42,7 +43,6 @@ class Form extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleUnCheck = this.handleUnCheck.bind(this);
-    this.onAddNewEvent = this.onAddNewEvent.bind(this);
   }
   // Обработчик удаления пользователя из встречи
   onDeleteUser(id) {
@@ -71,36 +71,6 @@ class Form extends Component {
       event: addedUser,
       filledUser: true,
     }, () => this.setState({ member: '' }));
-  }
-  // Обработчик для добавления новой встречи
-  onAddNewEvent() {
-    const {
-      event: {
-        title,
-        dateStart,
-        dateEnd,
-        room,
-        users,
-      },
-    } = this.state;
-    const usersIds = [];
-    users.forEach(user => usersIds.push(user.id));
-    this.props.newEvent({
-      variables: {
-        input: {
-          title,
-          dateStart: Moment(dateStart).format('YYYY-MM-DDTHH:mm:ss.SSS'),
-          dateEnd: Moment(dateEnd).format('YYYY-MM-DDTHH:mm:ss.SSS'),
-        },
-        usersIds,
-        roomId: room.id,
-      },
-    }).then(({ data }) => {
-      this.props.onConfirmAdd(data);
-      console.log(data);
-    }).catch((error) => {
-      console.log('there was an error sending the query', error);
-    });
   }
   // Обработчик ввода названия встречи
   handleTitle(e) {
@@ -293,6 +263,30 @@ const QUERY_EVENT = gql`
     }
   }
 `;
+
+
+Form.propTypes = {
+  title: PropTypes.string.isRequired,
+  event: PropTypes.shape({
+    id: PropTypes.string,
+    dateStart: PropTypes.string,
+    dateEnd: PropTypes.string,
+    title: PropTypes.string,
+    users: PropTypes.arrayOf(PropTypes.object),
+    room: PropTypes.object,
+  }).isRequired,
+  editEvent: PropTypes.bool,
+  handleCancel: PropTypes.func.isRequired,
+  onSaveEvent: PropTypes.func,
+  handleDeletePopover: PropTypes.func.isRequired,
+  feedQuery: PropTypes.object,
+};
+
+Form.defaultProps = {
+  editEvent: false,
+  onSaveEvent: null,
+  feedQuery: null,
+};
 
 export default compose(
   graphql(QUERY_EVENT, { name: 'selectedEvent', options: ({ eventId }) => ({ variables: { id: eventId } }) }),

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Close from '../Form/Close';
 import './UserCard.css';
 
@@ -10,7 +11,11 @@ class UserCard extends Component {
     if (this.props.type === 'search') {
       return (
         <div className="user-search-container">
-          <img className="user-avatar user-avatar-search" src={this.props.avatarUrl} alt={this.props.login} />
+          <img
+            className="user-avatar user-avatar-search"
+            src={this.props.avatarUrl}
+            alt={this.props.login}
+          />
           <p className="user-login user-login-search">{this.props.login}</p>
         </div>
       );
@@ -18,7 +23,11 @@ class UserCard extends Component {
     if (this.props.type === 'popover') {
       return (
         <div className="user-popover-container">
-          <img className="user-avatar user-avatar-popover" src={this.props.avatarUrl} alt={this.props.login} />
+          <img
+            className="user-avatar user-avatar-popover"
+            src={this.props.avatarUrl}
+            alt={this.props.login}
+          />
           <p className="user-login user-login-popover">{this.props.login}</p>
         </div>
       );
@@ -60,5 +69,19 @@ class UserCard extends Component {
     );
   }
 }
+
+UserCard.propTypes = {
+  type: PropTypes.string,
+  avatarUrl: PropTypes.string.isRequired,
+  login: PropTypes.string.isRequired,
+  onDeleteUser: PropTypes.func,
+  value: PropTypes.string,
+};
+
+UserCard.defaultProps = {
+  type: null,
+  onDeleteUser: null,
+  value: null,
+};
 
 export default UserCard;

@@ -92,9 +92,9 @@ export const eventDuration = (dateStart, dateEnd) => Array.from(moment.range(Mom
 
 export const eventDurationToEnd = dateStart => Array.from(moment.range(Moment(dateStart), Moment(dateStart).clone().endOf('day').add(1, 'ms'))).length;
 
-export const isSame = day => Moment(Moment()).isSame(Moment(day), 'day');
+export const isSame = dayC => Moment(Moment()).isSame(Moment(dayC), 'day');
 
-export const isSelected = (day, selected) => Moment(selected).isSame(Moment(day), 'day');
+export const isSelected = (dayC, selected) => Moment(selected).isSame(Moment(dayC), 'day');
 
 export const isSelectedTime = (time, selected) => Moment(selected).isSame(Moment(time), 'minute');
 
