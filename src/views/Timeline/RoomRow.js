@@ -35,13 +35,13 @@ class RoomRow extends Component {
     if (this.state.selectedDay !== nextProps.selectedDay) {
       return true;
     }
-    if (nextProps.events.length !== this.state.eventNumber) {
+    if (nextProps.events.length !== this.state.eventNumber || nextProps.editEvent === false) {
       return true;
     }
     return false;
   }
   handleCreate(e) {
-    this.props.createEvent(e.target.value, e.target.dataset.room);
+    this.props.createEvent(e.target.value, this.props.room);
   }
   handlerPopover(e) {
     this.props.handlePopover(e, this.props.events);

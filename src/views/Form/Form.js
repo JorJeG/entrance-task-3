@@ -187,12 +187,10 @@ class Form extends Component {
       editEvent,
       title,
       handleCancel,
-      onAddNewEvent,
       handleDeletePopover,
       onSaveEvent,
     } = this.props;
     const {
-      eventTitle,
       member,
       filledUser,
       filledTitle,
@@ -214,7 +212,7 @@ class Form extends Component {
           title={title}
           event={event}
           eventTitle={event.title}
-          handleCancel={this.handleCancel}
+          handleCancel={handleCancel}
           handleTitle={this.handleTitle}
           handleClearTitle={this.handleClearTitle}
           handleDate={this.handleDate}

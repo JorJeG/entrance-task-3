@@ -20,15 +20,14 @@ class Form extends Component {
     super(props);
     this.state = {
       member: '',
-      filledTitle: true,
-      filledUser: true,
+      filledTitle: false,
+      filledUser: false,
       checked: true,
       event: {
-        id: this.props.event.id,
-        title: this.props.event.title,
+        title: '',
         dateStart: this.props.event.dateStart,
         dateEnd: this.props.event.dateEnd,
-        users: this.props.event.users,
+        users: [],
         room: this.props.event.room,
       },
     };
@@ -97,7 +96,6 @@ class Form extends Component {
       },
     }).then(({ data }) => {
       this.props.onConfirmAdd(data);
-      console.log(data);
     }).catch((error) => {
       console.log('there was an error sending the query', error);
     });
@@ -213,7 +211,7 @@ class Form extends Component {
           title={title}
           event={event}
           eventTitle={event.title}
-          handleCancel={this.handleCancel}
+          handleCancel={handleCancel}
           handleTitle={this.handleTitle}
           handleClearTitle={this.handleClearTitle}
           handleDate={this.handleDate}
@@ -233,15 +231,7 @@ class Form extends Component {
           onDeleteUser={this.onDeleteUser}
           editEvent={editEvent}
         />
-        {editEvent &&
-        <button
-          onMouseUp={handleDeletePopover}
-          className="button-delete__mobile hiddenDesktop"
-        >
-          Удалить встречу
-        </button>}
         <Footer
-          event={event}
           checked={checked}
           filledTitle={filledTitle}
           filledUser={filledUser}
@@ -273,10 +263,9 @@ const FEED_QUERY = gql`
   }
 `;
 
-const QUERY_EVENT = gql`
-  query selectedEvent($id: ID!) {
-    event(id: $id) {
-      id
+const CREATE_EVENT = gql`
+  mutation createEvent($input: EventInput!, $usersIds: [ID], $roomId: ID!) {
+    createEvent(input: $input, usersIds: $usersIds, roomId: $roomId) {
       title
       dateStart
       dateEnd
@@ -295,6 +284,6 @@ const QUERY_EVENT = gql`
 `;
 
 export default compose(
-  graphql(QUERY_EVENT, { name: 'selectedEvent', options: ({ eventId }) => ({ variables: { id: eventId } }) }),
+  graphql(CREATE_EVENT, { name: 'newEvent' }),
   graphql(FEED_QUERY, { name: 'feedQuery' }),
 )(Form);

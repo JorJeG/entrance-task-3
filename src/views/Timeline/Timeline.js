@@ -22,7 +22,7 @@ class Timeline extends Component {
     const offsetDesktop = this.props.offset - 389;
     return (
       <div
-        hidden={this.props.newEvent || this.props.editEvent}
+        hidden={this.props.newEvent || this.props.editEvent || this.props.withData}
         ref={this.props.scrollingRef}
         className="timeline-container"
         onTouchMove={this.props.scrolling}
@@ -62,6 +62,8 @@ class Timeline extends Component {
         <ListFloor
           confirmDelete={this.props.confirmDelete}
           newEvent={this.props.newEvent}
+          withData={this.props.withData}
+          editEvent={this.props.editEvent}
           height={this.state.height}
           onEvent={this.props.onEvent}
           popover={this.props.popover}

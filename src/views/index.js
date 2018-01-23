@@ -10,6 +10,7 @@ export { default as FloorRow } from './Timeline/FloorRow';
 
 export { default as Form } from './Form/Form';
 export { default as EditForm } from './Form/EditForm';
+export { default as WithDataForm } from './Form/WithDataForm';
 export { default as TopField } from './Form/TopField';
 export { default as MiddleField } from './Form/MiddleField';
 export { default as Footer } from './Form/Footer';

@@ -3,6 +3,7 @@ import './Footer.css';
 
 const Footer = (props) => {
   const {
+    event,
     checked,
     handleCancel,
     handleDeletePopover,
@@ -32,7 +33,7 @@ const Footer = (props) => {
         {editEvent &&
         <button
           disabled={!checked || !filledTitle || !filledUser}
-          onMouseUp={onSaveEvent}
+          onMouseUp={() => onSaveEvent(event)}
           className="button-create"
         >
           Сохранить

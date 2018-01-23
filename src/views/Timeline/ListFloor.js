@@ -11,6 +11,8 @@ const ListFloor = props => (
       <RoomList
         confirmDelete={props.confirmDelete}
         newEvent={props.newEvent}
+        withData={props.withData}
+        editEvent={props.editEvent}
         onEvent={props.onEvent}
         handlePopover={props.handlePopover}
         selectedDay={props.selectedDay}

@@ -5,17 +5,14 @@ import gql from 'graphql-tag';
 import {
   Timeline,
   Form,
+  WithDataForm,
   EditForm,
   EventPopover,
   ConfirmAddPopover,
   ConfirmDeletePopover,
 } from './views';
 import {
-  mockEvent,
   newEventWithTime,
-  addNewEvent,
-  deleteEvent,
-  saveEvent,
   updateBox,
 } from './helpers/helpers';
 import logo from './assets/touch/logo.svg';
@@ -30,7 +27,8 @@ class App extends Component {
       hidden: false,
       newEvent: false,
       editEvent: false,
-      // event: {},
+      withData: false,
+      event: {},
       today: true,
       now: Moment().format('HH:mm'),
       offset: Moment.duration(Moment().format('HH:mm')).asMinutes(),
@@ -80,12 +78,27 @@ class App extends Component {
     });
   }
   // Обработчик для сохранения изменений во встречи
-  onSaveEvent() {
-    const { events, event } = this.state;
-    const savedEvent = saveEvent(events, event);
-    this.setState({
-      events: savedEvent,
-      editEvent: false,
+  onSaveEvent(event) {
+    const usersIds = [];
+    event.users.forEach(user => usersIds.push(user.id));
+    this.props.updateEvent({
+      variables: {
+        id: event.id,
+        input: {
+          title: event.title,
+          dateStart: Moment(event.dateStart).format('YYYY-MM-DDTHH:mm:ss.SSS'),
+          dateEnd: Moment(event.dateEnd).format('YYYY-MM-DDTHH:mm:ss.SSS'),
+        },
+        usersIds,
+        roomId: event.room.id,
+      },
+    }).then(() => {
+      this.setState({
+        event: {},
+        editEvent: false,
+      });
+    }).catch((error) => {
+      console.log('there was an error sending the query', error);
     });
   }
   // Обработчик для удаления встречи
@@ -96,9 +109,7 @@ class App extends Component {
         id,
       },
     }).then((data) => {
-      console.log(data);
       this.setState({
-        // events: removedEvents,
         confirmDelete: false,
       });
     }).catch((error) => {
@@ -176,13 +187,13 @@ class App extends Component {
     }
   }
   // Обработчик переключения на создание встречи
-  createEvent(e, id) {
+  createEvent(e, selectedRoom) {
     if (typeof e === 'string') {
       // const currentRoom = this.props.feedQuery.rooms.find(room => room.id === id);
-      // const eventWithTime = newEventWithTime(this.state.event, e, currentRoom);
+      const eventWithTime = newEventWithTime(this.state.event, e, selectedRoom);
       this.setState({
-        newEvent: true,
-        // event: eventWithTime,
+        withData: true,
+        event: eventWithTime,
         onEvent: false,
       });
     } else {
@@ -198,7 +209,9 @@ class App extends Component {
   cancelButton() {
     this.setState({
       newEvent: false,
+      withData: false,
       editEvent: false,
+      event: {},
     });
   }
   // Обработчик поповера для встреч
@@ -229,6 +242,7 @@ class App extends Component {
     // console.log(data);
     this.setState({
       newEvent: false,
+      withData: false,
       event: data.createEvent,
       confirmAdd: true,
     });
@@ -240,13 +254,13 @@ class App extends Component {
       editEvent: false,
     });
   }
-  
   render() {
     const {
       popover,
       event,
       onEvent,
       newEvent,
+      withData,
       editEvent,
       confirmAdd,
       confirmDelete,
@@ -277,6 +291,7 @@ class App extends Component {
           popover={popover}
           confirmDelete={confirmDelete}
           newEvent={newEvent}
+          withData={withData}
           editEvent={editEvent}
           selectedTime={selectedDay}
           selectedDay={selectedDay}
@@ -298,6 +313,15 @@ class App extends Component {
         {newEvent &&
         <Form
           title="Новая встреча"
+          onConfirmAdd={this.onConfirmAdd}
+          handleCancel={this.cancelButton}
+          handleDeletePopover={this.handleDeletePopover}
+          onAddNewEvent={this.onAddNewEvent}
+        />}
+        {withData &&
+        <WithDataForm
+          title="Новая встреча"
+          event={event}
           onConfirmAdd={this.onConfirmAdd}
           handleCancel={this.cancelButton}
           handleDeletePopover={this.handleDeletePopover}
@@ -336,6 +360,14 @@ class App extends Component {
   }
 }
 
+const UPDATE_EVENT = gql`
+  mutation updateEvent($id: ID!, $input: EventInput!, $roomId: ID!, $usersIds: [ID]) {
+    updateEvent(id: $id, input: $input, usersIds: $usersIds, roomId: $roomId) {
+      id
+    }
+  }
+`;
+
 const REMOVE_EVENT = gql`
   mutation removeEvent($id: ID!) {
     removeEvent(id: $id) {
@@ -344,4 +376,7 @@ const REMOVE_EVENT = gql`
   }
 `;
 
-export default graphql(REMOVE_EVENT, { name: 'removeEvent' })(App);
+export default compose(
+  graphql(REMOVE_EVENT, { name: 'removeEvent' }),
+  graphql(UPDATE_EVENT, { name: 'updateEvent' }),
+)(App);

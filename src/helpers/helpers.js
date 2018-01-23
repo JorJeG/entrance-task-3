@@ -105,7 +105,6 @@ export const mockEvent = event => Object.assign({}, event, {
 });
 
 export const newEventWithTime = (event, dateStart, room) => Object.assign({}, event, {
-  id: generateId(),
   title: '',
   dateStart: Moment(dateStart),
   dateEnd: Moment(dateStart).add(1, 'hours'),

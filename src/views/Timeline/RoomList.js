@@ -4,11 +4,11 @@ import gql from 'graphql-tag';
 import { FloorRow, RoomRow, OnlyRoom } from '../';
 
 class RoomList extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.newEvent === false || nextProps.confirmDelete === false) {
+    if (nextProps.newEvent === false ||
+      nextProps.confirmDelete === false ||
+      nextProps.withData === false ||
+      nextProps.editEvent === false) {
       this.props.feedQuery.refetch();
     }
   }
@@ -19,6 +19,7 @@ class RoomList extends Component {
       },
       onEvent,
       only,
+      editEvent,
       handlePopover,
       createEvent,
       selectedDay,
@@ -46,6 +47,7 @@ class RoomList extends Component {
         const filteredEvents = events.filter(event => event.room.id === room.id);
         rows.push(<RoomRow
           onEvent={onEvent}
+          editEvent={editEvent}
           handlePopover={handlePopover}
           selectedDay={selectedDay}
           createEvent={createEvent}
