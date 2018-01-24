@@ -82,7 +82,7 @@
 .button-delete__mobile {
 	display: inline-block;
 	order: -1;
-	width: 100vw;
+	width: 100%;
 	height: 54px;
 	font-size: 15px;
 	color: #FF3333;

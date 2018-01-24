@@ -1,5 +1,5 @@
 .timeline-container {
-	width: 100vw;
+	width: 100%;
 	display: flex;
 	-webkit-flex-direction: column;
 	-ms-flex-direction: column;
